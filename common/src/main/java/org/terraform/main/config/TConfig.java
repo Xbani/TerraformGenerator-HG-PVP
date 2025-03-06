@@ -31,6 +31,9 @@ public class TConfig extends YamlFileInterface {
     public int HEIGHT_MAP_SEA_LEVEL = 62;
     @YamlKey("heightmap.bedrock-height")
     public int HEIGHT_MAP_BEDROCK_HEIGHT = 5;
+
+    @YamlKey("heightmap.bedrock-lava")
+    public boolean HEIGHT_MAP_BEDROCK_LAVA = false;
     @YamlKey("heightmap.bedrock-density")
     public int HEIGHT_MAP_BEDROCK_DENSITY = 70;
     @YamlKey("heightmap.spawn-flat-radius")
