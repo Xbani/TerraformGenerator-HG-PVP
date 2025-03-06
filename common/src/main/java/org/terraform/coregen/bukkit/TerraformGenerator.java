@@ -205,6 +205,13 @@ public class TerraformGenerator extends ChunkGenerator {
                     else
                         break;
                 }
+                if(TConfig.c.HEIGHT_MAP_BEDROCK_LAVA)
+                {
+                    if(chunkData.getBlockData(x,TConfig.c.HEIGHT_MAP_BEDROCK_HEIGHT,z).getMaterial()==Material.AIR)
+                    {
+                        chunkData.setBlock(x,TerraformGeneratorPlugin.injector.getMinY()+TConfig.c.HEIGHT_MAP_BEDROCK_HEIGHT,z,Material.LAVA);
+                    }
+                }
             }
         }
         // After this whole song and dance, place bedrock in one operation
