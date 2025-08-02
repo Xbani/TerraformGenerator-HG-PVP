@@ -7,42 +7,25 @@ import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-
 /**
  * class represent chunk location in simple form
  *
  * @author wysohn
  */
-public class SimpleChunkLocation implements Cloneable {
-    private final String world;
-    private final int x;
-    private final int z;
-
-    public SimpleChunkLocation(String world, int x, int z) {
-        this.world = world;
-        this.x = x;
-        this.z = z;
+public record SimpleChunkLocation(String world, int x, int z) implements Cloneable {
+    public SimpleChunkLocation(TerraformWorld tw, int x, int z){
+        this(tw.getName(),x,z);
     }
-
     public SimpleChunkLocation(String world, int x, int y, int z) {
-        this.world = world;
-        this.x = x >> 4;
-        this.z = z >> 4;
+        this(world, x>>4, z>>4);
     }
 
     public SimpleChunkLocation(@NotNull Chunk chunk) {
-        this.world = chunk.getWorld().getName();
-        this.x = chunk.getX();
-        this.z = chunk.getZ();
+        this(chunk.getWorld().getName(), chunk.getX(), chunk.getZ());
     }
 
     public static @NotNull SimpleChunkLocation of(@NotNull Block block) {
         return new SimpleChunkLocation(block.getWorld().getName(), block.getX() >> 4, block.getZ() >> 4);
-    }
-
-    public static @NotNull Chunk toChunk(@NotNull SimpleChunkLocation loc) {
-        return Bukkit.getWorld(loc.world).getChunkAt(loc.x, loc.z);
     }
 
     // world , x, z
@@ -79,29 +62,6 @@ public class SimpleChunkLocation implements Cloneable {
     @SuppressWarnings("MethodDoesntCallSuperMethod")
     public @NotNull SimpleChunkLocation clone() {
         return new SimpleChunkLocation(world, x, z);
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-
-        result = prime * result + world.hashCode();
-        result = prime * result + x;
-        result = prime * result + z;
-
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof SimpleChunkLocation other)) {
-            return false;
-        }
-        return this.x == other.x && this.z == other.z && Objects.equals(world, other.world);
     }
 
     @Override

@@ -31,6 +31,10 @@ public class Version {
         availableVersions.put(21.2, "v1_21_R2");
         availableVersions.put(21.3, "v1_21_R2");
         availableVersions.put(21.4, "v1_21_R3");
+        availableVersions.put(21.5, "v1_21_R4");
+        availableVersions.put(21.6, "v1_21_R5");
+        availableVersions.put(21.7, "v1_21_R5");
+        availableVersions.put(21.8, "v1_21_R5");
     }
 
     // Since I keep forgetting, an example version is 19.1 for 1.19.1

@@ -8,12 +8,14 @@ import org.terraform.coregen.populatordata.PopulatorDataAbstract;
 import org.terraform.data.SimpleBlock;
 import org.terraform.data.SimpleLocation;
 import org.terraform.data.TerraformWorld;
+import org.terraform.data.Wall;
 import org.terraform.main.config.TConfig;
 import org.terraform.small_items.PlantBuilder;
 import org.terraform.tree.FractalTreeBuilder;
 import org.terraform.tree.FractalTypes;
 import org.terraform.utils.BlockUtils;
 import org.terraform.utils.GenUtils;
+import org.terraform.utils.blockdata.OrientableBuilder;
 
 import java.util.Random;
 
@@ -48,7 +50,9 @@ public class PlainsHandler extends BiomeHandler {
                                    int rawZ,
                                    @NotNull PopulatorDataAbstract data)
     {
-        if (data.getType(rawX, surfaceY, rawZ) == Material.GRASS_BLOCK && !BlockUtils.isWet(new SimpleBlock(data,
+        if (data.getType(rawX, surfaceY, rawZ) == Material.GRASS_BLOCK
+            && data.getType(rawX, surfaceY+1, rawZ) == Material.AIR
+            && !BlockUtils.isWet(new SimpleBlock(data,
                 rawX,
                 surfaceY,
                 rawZ)))
@@ -62,11 +66,10 @@ public class PlainsHandler extends BiomeHandler {
                     }
                 }
                 else {
-                    if (GenUtils.chance(random, 7, 10)) {
-                        BlockUtils.pickFlower().build(data, rawX, surfaceY + 1, rawZ);
-                    }
-                    else {
-                        BlockUtils.pickTallFlower().build(data, rawX, surfaceY + 1, rawZ);
+                    switch (GenUtils.randInt(random, 1, 10)) {
+                        case 0, 1 -> PlantBuilder.BUSH.build(data, rawX, surfaceY + 1, rawZ);
+                        case 2 -> BlockUtils.pickTallFlower().build(data, rawX, surfaceY + 1, rawZ);
+                        default -> BlockUtils.pickFlower().build(data, rawX, surfaceY + 1, rawZ);
                     }
                 }
             }
@@ -117,7 +120,7 @@ public class PlainsHandler extends BiomeHandler {
         }
 
         // Small trees or grass poffs
-        SimpleLocation[] trees = GenUtils.randomObjectPositions(tw, data.getChunkX(), data.getChunkZ(), 16);
+        SimpleLocation[] trees = GenUtils.randomObjectPositions(tw, data.getChunkX(), data.getChunkZ(), TConfig.c.BIOME_PLAINS_TREE_INTERVAL);
 
         for (SimpleLocation sLoc : trees) {
             int highestY = GenUtils.getHighestGround(data, sLoc.getX(), sLoc.getZ());
@@ -125,34 +128,46 @@ public class PlainsHandler extends BiomeHandler {
                 continue;
             }
 
-            if (random.nextBoolean()) { // trees
-                sLoc.setY(highestY);
-                if (data.getBiome(sLoc.getX(), sLoc.getZ()) == getBiome()
-                    && BlockUtils.isDirtLike(data.getType(sLoc.getX(), sLoc.getY(), sLoc.getZ())))
-                {
-                    new FractalTreeBuilder(FractalTypes.Tree.NORMAL_SMALL).build(
-                            tw,
-                            data,
-                            sLoc.getX(),
-                            sLoc.getY(),
-                            sLoc.getZ()
-                    );
+            sLoc = sLoc.getAtY(highestY);
+            switch(random.nextInt(5)){
+                case 0,1 -> {
+                    if (data.getBiome(sLoc.getX(), sLoc.getZ()) == getBiome()
+                        && BlockUtils.isDirtLike(data.getType(sLoc.getX(), sLoc.getY(), sLoc.getZ())))
+                    {
+                        new FractalTreeBuilder(FractalTypes.Tree.NORMAL_SMALL).build(
+                                tw,
+                                data,
+                                sLoc.getX(),
+                                sLoc.getY(),
+                                sLoc.getZ()
+                        );
+                    }
                 }
-            }
-            else { // Poffs
-                sLoc.setY(highestY);
-                if (TConfig.arePlantsEnabled()
-                    && data.getBiome(sLoc.getX(), sLoc.getZ()) == getBiome()
-                    && BlockUtils.isDirtLike(data.getType(sLoc.getX(), sLoc.getY(), sLoc.getZ())))
-                {
-                    BlockUtils.replaceSphere(random.nextInt(424444),
-                            2,
-                            2,
-                            2,
-                            new SimpleBlock(data, sLoc.getX(), sLoc.getY() + 1, sLoc.getZ()),
-                            false,
-                            Material.OAK_LEAVES
-                    );
+                case 2,3 ->{
+                    if (TConfig.arePlantsEnabled()
+                        && data.getBiome(sLoc.getX(), sLoc.getZ()) == getBiome()
+                        && BlockUtils.isDirtLike(data.getType(sLoc.getX(), sLoc.getY(), sLoc.getZ())))
+                    {
+                        BlockUtils.replaceSphere(random.nextInt(424444),
+                                2,
+                                2,
+                                2,
+                                new SimpleBlock(data, sLoc.getX(), sLoc.getY() + 1, sLoc.getZ()),
+                                false,
+                                Material.OAK_LEAVES
+                        );
+                    }
+                }
+                //Fallen tree
+                case 4 -> {
+                    Wall w = new Wall(data, sLoc.getUp(), BlockUtils.getDirectBlockFace(random));
+                    int length = GenUtils.randInt(1,3);
+                    for(int i = -length; i <= length; i++){
+                        if(!w.getFront(i).isAir()
+                           || !w.getFront(i).getDown().isSolid()) break;
+                        w.getFront(i).setBlockData(new OrientableBuilder(Material.OAK_LOG)
+                                .setAxis(BlockUtils.getAxisFromBlockFace(w.getDirection())).get());
+                    }
                 }
             }
 

@@ -1,18 +1,23 @@
 package org.terraform.structure;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
-
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
 import org.terraform.biome.BiomeBank;
 import org.terraform.data.MegaChunk;
 import org.terraform.data.TerraformWorld;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import org.terraform.main.config.TConfig;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * This hasn't been migrated to the new cache system, because it's uniquely a pain in the
+ * ass. It uses the cache with a variable timeout parameter, which is a huge pain.
+ */
 public class StructureLocator {
 
     private static final int[] TIMEDOUT = new int[] {-7, 13};
@@ -204,9 +209,7 @@ public class StructureLocator {
 
     private static @NotNull Collection<MegaChunk> getSurroundingChunks(@NotNull MegaChunk center, int radius) {
         if (radius == 0) {
-            return new ArrayList<>() {{
-                add(center);
-            }};
+            return List.of(center);
         }
         //     xxxxx
         // xxx  x   x
@@ -231,6 +234,7 @@ public class StructureLocator {
         return candidates;
     }
 
+    //9/5/2025 this is fuckin stupid
     public static class StructureLocatorCacheLoader extends CacheLoader<StructureLocatorKey, int[]> {
         /**
          * Does not do loading.

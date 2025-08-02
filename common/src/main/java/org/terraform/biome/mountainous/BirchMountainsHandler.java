@@ -18,6 +18,7 @@ import org.terraform.tree.FractalTreeBuilder;
 import org.terraform.tree.FractalTypes;
 import org.terraform.utils.BlockUtils;
 import org.terraform.utils.GenUtils;
+import org.terraform.utils.version.V_1_21_5;
 
 import java.util.Random;
 
@@ -63,12 +64,16 @@ public class BirchMountainsHandler extends AbstractMountainHandler {
         if (data.getType(rawX, surfaceY, rawZ) == Material.GRASS_BLOCK) {
 
             if (GenUtils.chance(random, 1, 10)) {
-                PlantBuilder.GRASS.build(data, rawX, surfaceY + 1, rawZ);
-                if (random.nextBoolean()) {
-                    PlantBuilder.TALL_GRASS.build(data, rawX, surfaceY + 1, rawZ);
+                if (data.getType(rawX, surfaceY + 1, rawZ) != Material.AIR) {
+                    return;
                 }
-                else {
-                    BlockUtils.pickFlower().build(data, rawX, surfaceY + 1, rawZ);
+                // Grass & Flowers
+                switch(random.nextInt(5)){
+                    case 0 -> PlantBuilder.GRASS.build(data, rawX, surfaceY + 1, rawZ);
+                    case 1 -> PlantBuilder.TALL_GRASS.build(data, rawX, surfaceY + 1, rawZ);
+                    case 2 -> BlockUtils.pickFlower().build(data, rawX, surfaceY + 1, rawZ);
+                    case 3 -> PlantBuilder.BUSH.build(data, rawX, surfaceY + 1, rawZ);
+                    case 4 -> V_1_21_5.wildflowers(random, data, rawX, surfaceY + 1, rawZ);
                 }
             }
         }
@@ -104,7 +109,7 @@ public class BirchMountainsHandler extends AbstractMountainHandler {
         for (SimpleLocation sLoc : trees) {
             if (data.getBiome(sLoc.getX(), sLoc.getZ()) == getBiome()) {
                 int treeY = GenUtils.getHighestGround(data, sLoc.getX(), sLoc.getZ());
-                sLoc.setY(treeY);
+                sLoc = sLoc.getAtY(treeY);
                 // Rarely spawn huge taiga trees
                 if (TConfig.c.TREES_BIRCH_BIG_ENABLED && GenUtils.chance(random, 1, 20)) {
                     new FractalTreeBuilder(FractalTypes.Tree.BIRCH_BIG).build(
@@ -140,53 +145,8 @@ public class BirchMountainsHandler extends AbstractMountainHandler {
      */
     @Override
     public double calculateHeight(@NotNull TerraformWorld tw, int x, int z) {
-        double coreRawHeight;
-        double height = HeightMap.CORE.getHeight(tw, x, z);// HeightMap.MOUNTAINOUS.getHeight(tw, x, z); // Added here
-
-        // Let mountains cut into adjacent sections.
-        double maxMountainRadius = ((double) BiomeSection.sectionWidth);
-        // Double attrition height
-        height += HeightMap.ATTRITION.getHeight(tw, x, z);
-        coreRawHeight = height;
-
-        BiomeSection sect = BiomeBank.getBiomeSectionFromBlockCoords(tw, x, z);
-        if (sect.getBiomeBank().getType() != BiomeType.MOUNTAINOUS) {
-            sect = BiomeSection.getMostDominantSection(tw, x, z);
-        }
-
-        Random sectionRand = sect.getSectionRandom();
-        double maxPeak = getPeakMultiplier(sect, sectionRand);
-
-        // Let's just not offset the peak. This seems to give a better result.
-        SimpleLocation mountainPeak = sect.getCenter();
-
-        double distFromPeak = (1.42 * maxMountainRadius) - Math.sqrt(Math.pow(x - mountainPeak.getX(), 2) + Math.pow(
-                z
-                - mountainPeak.getZ(),
-                2
-        ));
-
-        double heightMultiplier = maxPeak * (distFromPeak / maxMountainRadius);
-
-        if (heightMultiplier < 1) {
-            heightMultiplier = 1;
-        }
-
-        height = height * heightMultiplier;
-
-        // If the height is too high, just force it to smooth out
-        if (height > 200) {
-            height = 200 + (height - 200) * 0.5;
-        }
-        if (height > 230) {
-            height = 230 + (height - 230) * 0.3;
-        }
-        if (height > 240) {
-            height = 240 + (height - 240) * 0.1;
-        }
-        if (height > 250) {
-            height = 250 + (height - 250) * 0.05;
-        }
+        double coreRawHeight = HeightMap.CORE.getHeight(tw, x, z);// HeightMap.MOUNTAINOUS.getHeight(tw, x, z); // Added here
+        double height = super.calculateHeight(tw,x,z);
 
         // Let rivers forcefully carve through birch mountains if they're deep enough.
         double riverDepth = HeightMap.getRawRiverDepth(tw, x, z); // HeightMap.RIVER.getHeight(tw, x, z);

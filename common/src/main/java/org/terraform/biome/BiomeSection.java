@@ -10,17 +10,15 @@ import org.terraform.utils.GenUtils;
 import org.terraform.utils.noise.FastNoise;
 import org.terraform.utils.noise.FastNoise.NoiseType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class BiomeSection {
     // A BiomeSection is 128 blocks wide (Default of bitshift 7).
     public static final int bitshifts = TConfig.c.BIOME_SECTION_BITSHIFTS;
-    public static final int sectionWidth = (int) (1 << bitshifts);
+    public static final int sectionWidth = 1 << bitshifts;
     public static final int minSize = sectionWidth;
     public static final int dominanceThreshold = (int) (0.35 * sectionWidth);
+    public static final int dominanceThresholdSquared = dominanceThreshold*dominanceThreshold;
     private final int x;
     private final int z;
     private final TerraformWorld tw;
@@ -125,7 +123,7 @@ public class BiomeSection {
         BiomeSection homeSection = BiomeBank.getBiomeSectionFromBlockCoords(tw, x, z);
 
         // Don't calculate if distance is very close to center
-        if (target.distance(homeSection.getCenter()) <= dominanceThreshold) {
+        if (target.distanceSqr(homeSection.getCenter()) <= dominanceThresholdSquared) {
             return homeSection;
         }
 
@@ -164,11 +162,16 @@ public class BiomeSection {
         return BiomeBank.getBiomeSectionFromSectionCoords(this.tw, this.x + x, this.z + z, true);
     }
 
-    public @Nullable BiomeBank getBiomeBank() {
+    public @NotNull BiomeSection getRelative(BiomeSubSection subSect) {
+        return getRelative(subSect.relX, subSect.relZ);
+    }
+
+    public @NotNull BiomeBank getBiomeBank() {
+        assert biome != null;
         return biome;
     }
 
-    private @Nullable BiomeBank parseBiomeBank() {
+    private @NotNull BiomeBank parseBiomeBank() {
         temperature = 3f * 2.5f * tw.getTemperatureOctave().GetNoise(this.x, this.z);
         moisture = 3f * 2.5f * tw.getMoistureOctave().GetNoise(this.x, this.z);
 
@@ -176,7 +179,7 @@ public class BiomeSection {
                 this,
                 temperature,
                 moisture
-        );// BiomeGrid.calculateBiome(BiomeType.FLAT, temperature, moisture);
+        );
     }
 
     /**
@@ -232,9 +235,7 @@ public class BiomeSection {
     public @NotNull Collection<BiomeSection> getRelativeSurroundingSections(int radius) {
         if (radius == 0) {
             BiomeSection target = this;
-            return new ArrayList<>() {{
-                add(target);
-            }};
+            return List.of(target);
         }
         //     xxxxx
         // xxx  x   x
@@ -263,6 +264,8 @@ public class BiomeSection {
     /**
      * @return the subsection within this biome section that the coordinates belong in.
      * Works even if the coords are outside the biome section.
+     *
+     * 12/6/2025 WHAT THE FUCK IS THIS
      */
     public @NotNull BiomeSubSection getSubSection(int rawX, int rawZ) {
         // if(new BiomeSection(tw, rawX, rawZ).equals(this)) {
@@ -314,10 +317,10 @@ public class BiomeSection {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof BiomeSection BiomeSection) {
-            return this.tw.getName().equals(BiomeSection.tw.getName())
-                   && this.x == BiomeSection.x
-                   && this.z == BiomeSection.z;
+        if (obj instanceof BiomeSection other) {
+            return this.tw.getName().equals(other.tw.getName())
+                   && this.x == other.x
+                   && this.z == other.z;
         }
         return false;
     }
