@@ -25,7 +25,7 @@ import java.util.Random;
 
 public class ForestHandler extends BiomeHandler {
 
-    private static void spawnRock(@NotNull Random rand, @NotNull PopulatorDataAbstract data, int x, int y, int z) {
+    protected static void spawnRock(@NotNull Random rand, @NotNull PopulatorDataAbstract data, int x, int y, int z) {
         ArrayList<int[]> locations = new ArrayList<>(20);
         locations.add(new int[] {x, y, z});
 

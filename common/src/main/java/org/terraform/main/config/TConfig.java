@@ -83,6 +83,11 @@ public class TConfig extends YamlFileInterface {
 
     // -=[BIOMES]=-
     // Biome globals
+    @YamlKey("biome.force.radius")
+    @YamlComment("Forces the blocks around 0,0 to be this biome. ROUNDS UP to the nearest biome section size. Does not disable rivers or beaches. Set to 0 to disable this.")
+    public int BIOME_FORCE_RADIUS = 0;
+    @YamlKey("biome.force.force-type")
+    public String BIOME_FORCED_BIOME = "PLAINS";
     @YamlKey("biome.temperature-frequency")
     public float BIOME_TEMPERATURE_FREQUENCY = 0.03f;
     @YamlKey("biome.moisture-frequency")
@@ -253,10 +258,14 @@ public class TConfig extends YamlFileInterface {
     public int BIOME_MUDDYBOG_WEIGHT = 2;
     @YamlKey("biome.forest.weight")
     public int BIOME_FOREST_WEIGHT = 8;
+    @YamlKey("biome.flowerforest.weight")
+    public int BIOME_FLOWERFOREST_WEIGHT = 8;
     @YamlKey("biome.desert.weight")
     public int BIOME_DESERT_WEIGHT = 6;
     @YamlKey("biome.jungle.weight")
     public int BIOME_JUNGLE_WEIGHT = 5;
+    @YamlKey("biome.sparsejungle.weight")
+    public int BIOME_SPARSE_JUNGLE_WEIGHT = 3;
     @YamlKey("biome.jungle.statue-chance-out-of-1000")
     public int BIOME_JUNGLE_STATUE_CHANCE = 4;
     @YamlKey("biome.bambooforest.weight")
@@ -926,12 +935,21 @@ public class TConfig extends YamlFileInterface {
     @YamlKey("ore.deepslate.min-spawn-height")
     public int ORE_DEEPSLATE_MINSPAWNHEIGHT = 0;
 
-    @YamlComment("Turn this off to remove any cave carveouts")
+    @YamlComment("Turn this off to remove any cave carveouts, including their decorations.")
     @YamlKey("feature_toggle.caves")
     public boolean FEATURE_CAVES_ENABLED = true;
-    @YamlComment("No animals anymore (or spawners). Ensure to `.setGameRule(GameRule.DO_MOB_SPAWNING, false)` to make sure none actually spawn afterwards.")
+    @YamlComment("Turns off cave decorations like walls and stalactites/stalagmites")
+    @YamlKey("feature_toggle.cavedecorators")
+    public boolean FEATURE_CAVEDECORATORS_ENABLED = true;
+    @YamlComment("Turns off clusters like dripstone and lush clusters. You can individually turn them off with maxsize set to 0.")
+    @YamlKey("feature_toggle.caveclusters")
+    public boolean FEATURE_CAVECLUSTERS_ENABLED = true;
+    @YamlComment("No animals anymore (AS OF v22.0.0, DOES NOT DISABLE SPAWNERS. USE THE OTHER OPTION FOR THAT). Ensure to `.setGameRule(GameRule.DO_MOB_SPAWNING, false)` to make sure none actually spawn afterwards.")
     @YamlKey("feature_toggle.animals")
     public boolean FEATURE_ANIMALS_ENABLED = true;
+    @YamlComment("Disables placing spawners")
+    @YamlKey("feature_toggle.spawners")
+    public boolean FEATURE_SPAWNERS_ENABLED = true;
     @YamlComment("Toggle (precious) ores")
     @YamlKey("feature_toggle.ores")
     public boolean FEATURE_ORES_ENABLED = true;
