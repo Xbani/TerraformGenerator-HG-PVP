@@ -76,7 +76,7 @@ public class SnowyMountainsHandler extends AbstractMountainHandler {
 
         // Make patches of decorative rock on the mountain sides.
         if (GenUtils.chance(random, 1, 25)) {
-            Material stoneType = GenUtils.randChoice(Material.ANDESITE, Material.DIORITE);
+            Material stoneType = GenUtils.randChoice(Material.GRAVEL, Material.GRAVEL);
             stoneStack(stoneType, data, random, rawX, surfaceY, rawZ);
             for (int nx = -2; nx <= 2; nx++) {
                 for (int nz = -2; nz <= 2; nz++) {
