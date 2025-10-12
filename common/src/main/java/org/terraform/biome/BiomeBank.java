@@ -13,6 +13,7 @@ import org.terraform.biome.ocean.*;
 import org.terraform.biome.river.*;
 import org.terraform.coregen.HeightMap;
 import org.terraform.coregen.bukkit.TerraformGenerator;
+import org.terraform.data.CoordPair;
 import org.terraform.data.TerraformWorld;
 import org.terraform.main.TerraformGeneratorPlugin;
 import org.terraform.main.config.TConfig;
@@ -263,10 +264,20 @@ public enum BiomeBank {
             BiomeClimate.HUMID_VEGETATION,
             TConfig.c.BIOME_FOREST_WEIGHT
     ),
+    FLOWER_FOREST(new FlowerForestHandler(),
+            BiomeType.FLAT,
+            BiomeClimate.HUMID_VEGETATION,
+            TConfig.c.BIOME_FLOWERFOREST_WEIGHT
+    ),
     JUNGLE(new JungleHandler(),
             BiomeType.FLAT,
             BiomeClimate.HUMID_VEGETATION,
             TConfig.c.BIOME_JUNGLE_WEIGHT
+    ),
+    SPARSE_JUNGLE(new SparseJungleHandler(),
+            BiomeType.FLAT,
+            BiomeClimate.HUMID_VEGETATION,
+            TConfig.c.BIOME_SPARSE_JUNGLE_WEIGHT
     ),
     BAMBOO_FOREST(new BambooForestHandler(),
             BiomeType.FLAT,
@@ -321,7 +332,7 @@ public enum BiomeBank {
     PALE_FOREST(new PaleForestHandler(),
             BiomeType.FLAT,
             BiomeClimate.HUMID_VEGETATION,
-            (Version.isAtLeast(21.4)) ? TConfig.c.BIOME_PALE_FOREST_WEIGHT : 0
+            (Version.VERSION.isAtLeast(Version.v1_21_4)) ? TConfig.c.BIOME_PALE_FOREST_WEIGHT : 0
     ),
     SWAMP(new SwampHandler(), BiomeType.FLAT, BiomeClimate.HUMID_VEGETATION, TConfig.c.BIOME_SWAMP_WEIGHT),
     MANGROVE(new MangroveHandler(),
@@ -642,6 +653,21 @@ public enum BiomeBank {
     public static @NotNull BiomeBank selectBiome(@NotNull BiomeSection section, double temperature, double moisture) {
         Random sectionRand = section.getSectionRandom();
 
+        if(TConfig.c.BIOME_FORCE_RADIUS > 0){
+            CoordPair lowerZoneBound = new CoordPair(
+                    (-TConfig.c.BIOME_FORCE_RADIUS)>>BiomeSection.bitshifts,
+                    (-TConfig.c.BIOME_FORCE_RADIUS)>>BiomeSection.bitshifts);
+            CoordPair upperZoneBound = new CoordPair(
+                    (TConfig.c.BIOME_FORCE_RADIUS)>>BiomeSection.bitshifts,
+                    (TConfig.c.BIOME_FORCE_RADIUS)>>BiomeSection.bitshifts);
+            if(lowerZoneBound.x() <= section.getX()
+                && section.getX() <= upperZoneBound.x()
+                && lowerZoneBound.z() <= section.getZ()
+               && section.getZ() <= upperZoneBound.z())
+            {
+                return BiomeBank.valueOf(TConfig.c.BIOME_FORCED_BIOME);
+            }
+        }
         BiomeType targetType = BiomeType.FLAT;
         BiomeClimate climate = BiomeClimate.selectClimate(temperature, moisture);
 
