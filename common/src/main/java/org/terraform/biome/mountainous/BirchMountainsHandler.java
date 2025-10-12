@@ -46,8 +46,8 @@ public class BirchMountainsHandler extends AbstractMountainHandler {
                 Material.GRASS_BLOCK,
                 Material.DIRT,
                 Material.DIRT,
-                GenUtils.randChoice(rand, Material.DIRT, Material.STONE),
-                GenUtils.randChoice(rand, Material.DIRT, Material.STONE)
+                GenUtils.randChoice(rand, Material.DIRT, Material.GRAVEL),
+                GenUtils.randChoice(rand, Material.DIRT, Material.GRAVEL)
         };
     }
 
@@ -86,11 +86,11 @@ public class BirchMountainsHandler extends AbstractMountainHandler {
         if (HeightMap.getTrueHeightGradient(target.getPopData(), target.getX(), target.getZ(), 3)
             > TConfig.c.MISC_TREES_GRADIENT_LIMIT)
         {
-            Material rock = Material.ANDESITE;
+            Material rock = Material.GRAVEL;
             if (HeightMap.getTrueHeightGradient(target.getPopData(), target.getX(), target.getZ(), 3)
                 > TConfig.c.MISC_TREES_GRADIENT_LIMIT * 2)
             {
-                rock = Material.DIORITE;
+                rock = Material.GRAVEL;
             }
             while (BlockUtils.isExposedToNonSolid(target)) {
                 target.setType(rock);

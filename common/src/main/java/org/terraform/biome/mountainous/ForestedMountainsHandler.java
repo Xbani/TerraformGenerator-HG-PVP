@@ -63,15 +63,15 @@ public class ForestedMountainsHandler extends AbstractMountainHandler {
                 GenUtils.randChoice(
                         rand,
                         Material.STONE,
-                        Material.STONE,
-                        Material.STONE,
-                        Material.STONE,
+                        Material.GRAVEL,
+                        Material.GRAVEL,
+                        Material.GRAVEL,
                         Material.COBBLESTONE
                 ),
-                GenUtils.randChoice(rand, Material.COBBLESTONE, Material.STONE, Material.STONE),
-                GenUtils.randChoice(rand, Material.COBBLESTONE, Material.STONE, Material.STONE),
-                GenUtils.randChoice(rand, Material.COBBLESTONE, Material.STONE, Material.STONE),
-                GenUtils.randChoice(rand, Material.COBBLESTONE, Material.STONE, Material.STONE),
+                GenUtils.randChoice(rand, Material.COBBLESTONE, Material.GRAVEL, Material.GRAVEL),
+                GenUtils.randChoice(rand, Material.COBBLESTONE, Material.GRAVEL, Material.GRAVEL),
+                GenUtils.randChoice(rand, Material.COBBLESTONE, Material.GRAVEL, Material.GRAVEL),
+                GenUtils.randChoice(rand, Material.COBBLESTONE, Material.GRAVEL, Material.GRAVEL),
                 };
     }
 
