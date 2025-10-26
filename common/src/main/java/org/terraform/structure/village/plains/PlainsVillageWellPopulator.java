@@ -163,7 +163,7 @@ public class PlainsVillageWellPopulator extends PlainsVillageAbstractRoomPopulat
                                 Material.COBBLESTONE,
                                 Material.COBBLESTONE,
                                 Material.COBBLESTONE,
-                                Material.MOSSY_COBBLESTONE
+                                Material.GRAVEL
                         ).toString().toLowerCase(Locale.ENGLISH)
                 ));
                 super.applyData(block, data);

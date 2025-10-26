@@ -33,17 +33,17 @@ public class AnimalFarmPathPopulator extends PathPopulatorAbstract {
         }
         if (GenUtils.chance(rand, 2, 10)) {
             w.getGround()
-             .setType(GenUtils.randChoice(Material.COBBLESTONE, Material.COARSE_DIRT, Material.MOSSY_COBBLESTONE));
+             .setType(GenUtils.randChoice(Material.COBBLESTONE, Material.COARSE_DIRT, Material.GRAVEL));
         }
         if (GenUtils.chance(rand, 2, 10)) {
             w.getLeft()
              .getGround()
-             .setType(GenUtils.randChoice(Material.COBBLESTONE, Material.COARSE_DIRT, Material.MOSSY_COBBLESTONE));
+             .setType(GenUtils.randChoice(Material.COBBLESTONE, Material.COARSE_DIRT, Material.GRAVEL));
         }
         if (GenUtils.chance(rand, 2, 10)) {
             w.getRight()
              .getGround()
-             .setType(GenUtils.randChoice(Material.COBBLESTONE, Material.COARSE_DIRT, Material.MOSSY_COBBLESTONE));
+             .setType(GenUtils.randChoice(Material.COBBLESTONE, Material.COARSE_DIRT, Material.GRAVEL));
         }
     }
 }

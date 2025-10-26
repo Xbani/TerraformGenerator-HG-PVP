@@ -53,7 +53,7 @@ public class DarkForestHandler extends BiomeHandler {
                         Tz,
                         data,
                         Material.COBBLESTONE,
-                        Material.MOSSY_COBBLESTONE,
+                        Material.GRAVEL,
                         Material.STONE,
                         Material.CHISELED_STONE_BRICKS,
                         Material.STONE_BRICKS,

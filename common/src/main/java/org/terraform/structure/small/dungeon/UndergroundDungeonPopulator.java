@@ -104,7 +104,7 @@ public class UndergroundDungeonPopulator extends SmallDungeonPopulator {
 
         // Fill with water if the room is wet. If not, use cave air.
         room.fillRoom(data, -1, new Material[] {
-                Material.COBBLESTONE, Material.MOSSY_COBBLESTONE
+                Material.COBBLESTONE, Material.GRAVEL
         }, fluid);
 
         // Make some fence pattern.
@@ -163,7 +163,7 @@ public class UndergroundDungeonPopulator extends SmallDungeonPopulator {
                 }
                 for (int i = 0; i < GenUtils.randInt(rand, 1, room.getHeight() - 3); i++) {
                     data.setType(x + nx, y + ny, z + nz, GenUtils.randChoice(Material.COBBLESTONE,
-                            Material.MOSSY_COBBLESTONE,
+                            Material.GRAVEL,
                             Material.COBBLESTONE_WALL,
                             Material.MOSSY_COBBLESTONE_WALL
                     ));
@@ -184,7 +184,7 @@ public class UndergroundDungeonPopulator extends SmallDungeonPopulator {
                             room.getHeight() - 2,
                             rand,
                             Material.COBBLESTONE,
-                            Material.MOSSY_COBBLESTONE,
+                            Material.GRAVEL,
                             Material.COBBLESTONE_WALL,
                             Material.MOSSY_COBBLESTONE_WALL
                     );

@@ -59,7 +59,7 @@ public class ForestHandler extends BiomeHandler {
                         Tx,
                         Ty,
                         Tz,
-                        GenUtils.randChoice(rand, Material.COBBLESTONE, Material.STONE, Material.MOSSY_COBBLESTONE)
+                        GenUtils.randChoice(rand, Material.COBBLESTONE, Material.STONE, Material.GRAVEL)
                 );
             }
         }
@@ -180,7 +180,7 @@ public class ForestHandler extends BiomeHandler {
             if (data.getBiome(sLoc.getX(), sLoc.getZ()) == getBiome()) {
                 if (BlockUtils.isDirtLike(data.getType(sLoc.getX(), sLoc.getY(), sLoc.getZ()))
                     || data.getType(sLoc.getX(), sLoc.getY(), sLoc.getZ()) == Material.COBBLESTONE
-                    || data.getType(sLoc.getX(), sLoc.getY(), sLoc.getZ()) == Material.MOSSY_COBBLESTONE
+                    || data.getType(sLoc.getX(), sLoc.getY(), sLoc.getZ()) == Material.GRAVEL
                     || data.getType(sLoc.getX(), sLoc.getY(), sLoc.getZ()) == Material.STONE)
                 {
                     int ny = GenUtils.randInt(random, -1, 1);

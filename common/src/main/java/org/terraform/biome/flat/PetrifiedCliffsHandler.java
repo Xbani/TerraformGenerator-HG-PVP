@@ -30,7 +30,7 @@ import java.util.Random;
 public class PetrifiedCliffsHandler extends BiomeHandler {
     public static final EnumSet<Material> endWithStones = EnumSet.of(
         Material.STONE,
-        Material.MOSSY_COBBLESTONE,
+        Material.GRAVEL,
         Material.COBBLESTONE
     );
     static BiomeBlender biomeBlender;
@@ -189,7 +189,7 @@ public class PetrifiedCliffsHandler extends BiomeHandler {
                         Material.STONE,
                         Material.STONE,
                         Material.COBBLESTONE,
-                        Material.MOSSY_COBBLESTONE
+                        Material.GRAVEL
                 ));
                 cache.writeTransformedHeight(x, z, (short) Math.max(cache.getTransformedHeight(x, z), height + y));
             }

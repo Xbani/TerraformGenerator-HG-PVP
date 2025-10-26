@@ -210,7 +210,7 @@ public class PlainsVillageTempleJigsawBuilder extends JigsawBuilder {
                                       @NotNull BlockFace one,
                                       @NotNull BlockFace two)
     {
-        Material[] cobblestone = {Material.COBBLESTONE, Material.MOSSY_COBBLESTONE};
+        Material[] cobblestone = {Material.COBBLESTONE, Material.GRAVEL};
         Material[] stoneBricks = {
                 Material.STONE_BRICKS,
                 Material.STONE_BRICKS,

@@ -201,7 +201,7 @@ public class WitchHutPopulator extends MultiMegaChunkStructurePopulator {
                                 Material.COBBLESTONE,
                                 Material.COBBLESTONE,
                                 Material.COBBLESTONE,
-                                Material.MOSSY_COBBLESTONE
+                                Material.GRAVEL
                         ).name().toLowerCase(Locale.ENGLISH)
                 ));
                 super.applyData(block, data);

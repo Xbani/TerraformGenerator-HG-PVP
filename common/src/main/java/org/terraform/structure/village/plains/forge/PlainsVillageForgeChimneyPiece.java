@@ -91,7 +91,7 @@ public class PlainsVillageForgeChimneyPiece extends PlainsVillageForgeStandardPi
                 else {
                     core.getRelative(0, 2 + i, 0)
                         .getRelative(face)
-                        .setType(Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                        .setType(Material.COBBLESTONE, Material.GRAVEL);
                 }
             }
 
@@ -117,17 +117,17 @@ public class PlainsVillageForgeChimneyPiece extends PlainsVillageForgeStandardPi
 
 
                 // Modify the exterior.
-                core.getRelative(face, 2).getUp(3).Pillar(2, random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                core.getRelative(face, 2).getUp(3).Pillar(2, random, Material.COBBLESTONE, Material.GRAVEL);
 
                 core.getRelative(face, 2)
                     .getLeft()
                     .getDown()
-                    .Pillar(6, random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                    .Pillar(6, random, Material.COBBLESTONE, Material.GRAVEL);
 
                 core.getRelative(face, 2)
                     .getRight()
                     .getDown()
-                    .Pillar(6, random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                    .Pillar(6, random, Material.COBBLESTONE, Material.GRAVEL);
 
                 new StairBuilder(Material.COBBLESTONE_STAIRS).setFacing(BlockUtils.getLeft(face))
                                                              .apply(core.getRelative(face, 2).getUp(4).getLeft())
@@ -140,19 +140,19 @@ public class PlainsVillageForgeChimneyPiece extends PlainsVillageForgeStandardPi
                 core.getRelative(face, 2)
                     .getDown(2)
                     .getLeft()
-                    .downUntilSolid(random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                    .downUntilSolid(random, Material.COBBLESTONE, Material.GRAVEL);
                 core.getRelative(face, 2)
                     .getDown()
-                    .downUntilSolid(random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                    .downUntilSolid(random, Material.COBBLESTONE, Material.GRAVEL);
                 core.getRelative(face, 2)
                     .getDown(2)
                     .getRight()
-                    .downUntilSolid(random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                    .downUntilSolid(random, Material.COBBLESTONE, Material.GRAVEL);
 
                 // Solidify the wall behind
-                core.getRelative(face).Pillar(6, random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
-                core.getRelative(face).getLeft().Pillar(6, random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
-                core.getRelative(face).getRight().Pillar(6, random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                core.getRelative(face).Pillar(6, random, Material.COBBLESTONE, Material.GRAVEL);
+                core.getRelative(face).getLeft().Pillar(6, random, Material.COBBLESTONE, Material.GRAVEL);
+                core.getRelative(face).getRight().Pillar(6, random, Material.COBBLESTONE, Material.GRAVEL);
             }
 
             // Iron bars placed last.
@@ -192,7 +192,7 @@ public class PlainsVillageForgeChimneyPiece extends PlainsVillageForgeStandardPi
                 else {
                     core.getRelative(0, 2 + i, 0)
                         .getRelative(face)
-                        .setType(Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                        .setType(Material.COBBLESTONE, Material.GRAVEL);
                 }
             }
         }

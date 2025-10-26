@@ -93,7 +93,7 @@ public class FarmhousePopulator extends VillageHousePopulator {
                                 Material.COBBLESTONE,
                                 Material.COBBLESTONE,
                                 Material.COBBLESTONE,
-                                Material.MOSSY_COBBLESTONE
+                                Material.GRAVEL
                         );
                     }
                     else if (data.getType(x + nx, y - 1, z + nz).toString().contains("LOG")) {
@@ -167,7 +167,7 @@ public class FarmhousePopulator extends VillageHousePopulator {
         b.setType(GenUtils.randChoice(rand, Material.STONE_BRICKS, Material.MOSSY_STONE_BRICKS));
         b.getUp().setType(GenUtils.randChoice(rand, Material.COBBLESTONE_WALL, Material.MOSSY_COBBLESTONE_WALL));
         b.getUp(2).setType(GenUtils.randChoice(rand, Material.COBBLESTONE_WALL, Material.MOSSY_COBBLESTONE_WALL));
-        b.getUp(3).setType(GenUtils.randChoice(rand, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE));
+        b.getUp(3).setType(GenUtils.randChoice(rand, Material.COBBLESTONE, Material.GRAVEL));
         b.getUp(4).setType(Material.CAMPFIRE);
         b.getUp(5).setType(GenUtils.randChoice(rand, Material.STONE_BRICKS, Material.MOSSY_STONE_BRICKS));
         for (BlockFace face : BlockUtils.directBlockFaces) {
@@ -299,7 +299,7 @@ public class FarmhousePopulator extends VillageHousePopulator {
                                 nx + x,
                                 height,
                                 nz + z,
-                                GenUtils.randChoice(random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE)
+                                GenUtils.randChoice(random, Material.COBBLESTONE, Material.GRAVEL)
                         );
                     }
                 }

@@ -51,7 +51,7 @@ public class ShaftRoomPopulator extends RoomPopulatorAbstract {
                             Material.STONE_BRICKS,
                             Material.CRACKED_STONE_BRICKS,
                             Material.MOSSY_STONE_BRICKS,
-                            Material.MOSSY_COBBLESTONE,
+                            Material.GRAVEL,
                             Material.COBBLESTONE,
                             Material.CAVE_AIR
                     ));

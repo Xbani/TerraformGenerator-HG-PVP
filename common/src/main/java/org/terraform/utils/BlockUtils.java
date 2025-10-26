@@ -178,7 +178,7 @@ public class BlockUtils {
      */
     public static final EnumSet<Material> stoneLike = EnumSet.of(Material.STONE,
             Material.COBBLESTONE,
-            Material.MOSSY_COBBLESTONE,
+            Material.GRAVEL,
             Material.GRANITE,
             Material.ANDESITE,
             Material.DIORITE,

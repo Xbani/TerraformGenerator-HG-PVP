@@ -50,7 +50,7 @@ public class LibraryRoomPopulator extends RoomPopulatorAbstract {
                         }
                     }
                     temp.setType(Material.CHISELED_STONE_BRICKS);
-                    temp.getUp().LPillar(room.getHeight(), rand, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                    temp.getUp().LPillar(room.getHeight(), rand, Material.COBBLESTONE, Material.GRAVEL);
 
 
                 }
@@ -61,9 +61,9 @@ public class LibraryRoomPopulator extends RoomPopulatorAbstract {
                     }
                     else {
                         other = 0;
-                        wall.LPillar(room.getHeight(), rand, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                        wall.LPillar(room.getHeight(), rand, Material.COBBLESTONE, Material.GRAVEL);
                         wall.getFront()
-                            .LPillar(room.getHeight(), rand, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+                            .LPillar(room.getHeight(), rand, Material.COBBLESTONE, Material.GRAVEL);
                     }
                 }
                 wall = wall.getLeft();

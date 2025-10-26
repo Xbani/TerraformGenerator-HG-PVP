@@ -419,7 +419,7 @@ public class MansionJigsawBuilder extends JigsawBuilder {
                       Material.COBBLESTONE,
                       Material.COBBLESTONE,
                       Material.COBBLESTONE,
-                      Material.MOSSY_COBBLESTONE
+                      Material.GRAVEL
               );
 
         // Small stair base

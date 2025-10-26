@@ -235,7 +235,7 @@ public class PlainsVillageRoofHandler {
         Material[] stairMat = {plainsVillagePopulator.woodStairs};
 
         if (builder.getVariant() == PlainsVillageHouseVariant.CLAY) {
-            solidMat = new Material[] {Material.COBBLESTONE, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE};
+            solidMat = new Material[] {Material.COBBLESTONE, Material.COBBLESTONE, Material.GRAVEL};
             stairMat = new Material[] {
                     Material.COBBLESTONE_STAIRS,
                     Material.COBBLESTONE_STAIRS,
@@ -276,7 +276,7 @@ public class PlainsVillageRoofHandler {
                         );
                         if (target.getType() != Material.COBBLESTONE
                             && target.getType() != plainsVillagePopulator.woodPlank
-                            && target.getType() != Material.MOSSY_COBBLESTONE)
+                            && target.getType() != Material.GRAVEL)
                         {
                             // BlockUtils.correctSurroundingStairData(target);
                             continue;

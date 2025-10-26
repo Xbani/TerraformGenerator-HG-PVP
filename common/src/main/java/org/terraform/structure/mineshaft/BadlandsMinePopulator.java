@@ -249,7 +249,7 @@ public class BadlandsMinePopulator extends JigsawStructurePopulator {
         toReplace.addAll(Arrays.asList(Material.STONE_SLAB,
                 Material.MOSSY_COBBLESTONE_WALL,
                 Material.COBBLESTONE_WALL,
-                Material.MOSSY_COBBLESTONE,
+                Material.GRAVEL,
                 Material.COBWEB,
                 Material.MOSSY_COBBLESTONE_SLAB,
                 Material.COBBLESTONE_SLAB
