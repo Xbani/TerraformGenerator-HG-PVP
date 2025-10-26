@@ -96,7 +96,7 @@ public class MineshaftPathPopulator extends PathPopulatorAbstract {
                 Material.COBBLESTONE,
                 Material.ANDESITE,
                 Material.DIORITE,
-                Material.MOSSY_COBBLESTONE
+                Material.GRAVEL
         ));
         core.getRight().setType(GenUtils.randChoice(getPathMaterial()));
         core.getLeft().setType(GenUtils.randChoice(getPathMaterial()));
@@ -192,7 +192,7 @@ public class MineshaftPathPopulator extends PathPopulatorAbstract {
                             if (target.getType() == Material.STONE) {
                                 if (GenUtils.chance(1, 10)) {
                                     target.setType(GenUtils.randChoice(Material.COBBLESTONE,
-                                            Material.MOSSY_COBBLESTONE
+                                            Material.GRAVEL
                                     ));
                                 }
                                 if (GenUtils.chance(1, 10)) {

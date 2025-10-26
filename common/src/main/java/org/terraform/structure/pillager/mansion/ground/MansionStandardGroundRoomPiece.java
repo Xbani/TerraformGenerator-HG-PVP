@@ -96,7 +96,7 @@ public abstract class MansionStandardGroundRoomPiece extends MansionStandardRoom
                             Material.COBBLESTONE,
                             Material.COBBLESTONE,
                             Material.COBBLESTONE,
-                            Material.MOSSY_COBBLESTONE
+                            Material.GRAVEL
                     );
 
                     b.getRelative(0, targetRoom.getHeight() + 1, 0).setType(Material.STONE_BRICKS);

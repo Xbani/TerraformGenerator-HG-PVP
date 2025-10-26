@@ -158,15 +158,15 @@ public class PlainsVillageHouseJigsawBuilder extends JigsawBuilder {
                                       Material[] fenceType)
     {
         target.Pillar(4, random, cornerType);
-        target.getDown().downUntilSolid(random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+        target.getDown().downUntilSolid(random, Material.COBBLESTONE, Material.GRAVEL);
         target = target.getUp();
         target.getRelative(one).Pillar(3, random, fenceType);
         target.getRelative(two).Pillar(3, random, fenceType);
         target.getRelative(one).CorrectMultipleFacing(3);
         target.getRelative(two).CorrectMultipleFacing(3);
         target = target.getDown();
-        target.getRelative(one).downUntilSolid(random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
-        target.getRelative(two).downUntilSolid(random, Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+        target.getRelative(one).downUntilSolid(random, Material.COBBLESTONE, Material.GRAVEL);
+        target.getRelative(two).downUntilSolid(random, Material.COBBLESTONE, Material.GRAVEL);
     }
 
     public PlainsVillageHouseVariant getVariant() {

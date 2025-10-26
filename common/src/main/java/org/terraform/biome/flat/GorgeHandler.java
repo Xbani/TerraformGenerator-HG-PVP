@@ -173,12 +173,13 @@ public class GorgeHandler extends BiomeHandler {
                         Material.STONE,
                         Material.COBBLESTONE,
                         Material.COBBLESTONE,
-                        Material.ANDESITE,
-                        Material.ANDESITE
+                        Material.GRAVEL,
+                        Material.GRAVEL
                 );
 
                 if (slabs
                     && material != Material.GRASS_BLOCK
+                    && material != Material.GRAVEL
                     && y == (int) Math.round(platformHeight)
                     && platformHeight - (int) platformHeight >= 0.5)
                 {

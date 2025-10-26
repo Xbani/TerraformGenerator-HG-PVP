@@ -120,11 +120,12 @@ public class ErodedPlainsHandler extends BiomeHandler {
                     Material.STONE,
                     Material.COBBLESTONE,
                     Material.COBBLESTONE,
-                    Material.MOSSY_COBBLESTONE,
+                    Material.GRAVEL,
                     Material.ANDESITE
             );
             if (slabs
                 && material != Material.GRASS_BLOCK
+                && material != Material.GRAVEL
                 && y == newHeight
                 && platformHeight - (int) platformHeight >= 0.5)
             {

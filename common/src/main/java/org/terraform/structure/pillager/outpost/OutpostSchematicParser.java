@@ -37,7 +37,7 @@ public class OutpostSchematicParser extends SchematicParser {
                 Material.COBBLESTONE,
                 Material.COBBLESTONE,
                 Material.COBBLESTONE,
-                Material.MOSSY_COBBLESTONE
+                Material.GRAVEL
         };
         if (biome == BiomeBank.BADLANDS || biome == BiomeBank.DESERT) {
             toReplace = new Material[] {

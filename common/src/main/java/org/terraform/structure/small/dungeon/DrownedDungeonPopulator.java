@@ -23,7 +23,7 @@ import java.util.Random;
 public class DrownedDungeonPopulator extends SmallDungeonPopulator {
     private static final Material[] cobbleSet = {
             Material.COBBLESTONE,
-            Material.MOSSY_COBBLESTONE,
+            Material.GRAVEL,
             Material.COBBLESTONE_WALL,
             Material.MOSSY_COBBLESTONE_WALL
     };

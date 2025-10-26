@@ -152,7 +152,7 @@ public class PlainsVillageTempleWallPiece extends JigsawStructurePiece {
                                                      .apply(w)
                                                      .setHalf(Half.TOP)
                                                      .apply(w.getUp(3));
-        w.getUp().downUntilSolid(new Random(), Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
+        w.getUp().downUntilSolid(new Random(), Material.COBBLESTONE, Material.GRAVEL);
 
         w.getUp().Pillar(2, new Random(), pane);
         w.getUp().CorrectMultipleFacing(2);

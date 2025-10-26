@@ -266,23 +266,23 @@ public class PortalRoomPopulator extends RoomPopulatorAbstract {
         ceil.setType(Material.CHISELED_STONE_BRICKS);
         ceil.getRelative(0, 0, -1).setType(Material.CHISELED_STONE_BRICKS);
         ceil.getRelative(0, 0, -2).setType(Material.MOSSY_STONE_BRICKS);
-        ceil.getRelative(0, 0, -3).setType(Material.MOSSY_COBBLESTONE);
+        ceil.getRelative(0, 0, -3).setType(Material.GRAVEL);
         ceil.getRelative(0, 0, -4).setBlockData(randTopSlab());
 
         ceil.getRelative(0, 0, 1).setType(Material.CHISELED_STONE_BRICKS);
         ceil.getRelative(0, 0, 2).setType(Material.MOSSY_STONE_BRICKS);
-        ceil.getRelative(0, 0, 3).setType(Material.MOSSY_COBBLESTONE);
+        ceil.getRelative(0, 0, 3).setType(Material.GRAVEL);
         ceil.getRelative(0, 0, 4).setBlockData(randTopSlab());
         for (int i : new int[] {-1, 1}) {
             ceil.getRelative(i, 0, -1).setType(Material.MOSSY_STONE_BRICKS);
             ceil.getRelative(i, 0, 0).setType(Material.MOSSY_STONE_BRICKS);
             ceil.getRelative(i, 0, 1).setType(Material.MOSSY_STONE_BRICKS);
 
-            ceil.getRelative(2 * i, 0, -1).setType(Material.MOSSY_COBBLESTONE);
-            ceil.getRelative(2 * i, 0, 0).setType(Material.MOSSY_COBBLESTONE);
-            ceil.getRelative(2 * i, 0, 1).setType(Material.MOSSY_COBBLESTONE);
-            ceil.getRelative(i, 0, -2).setType(Material.MOSSY_COBBLESTONE);
-            ceil.getRelative(i, 0, 2).setType(Material.MOSSY_COBBLESTONE);
+            ceil.getRelative(2 * i, 0, -1).setType(Material.GRAVEL);
+            ceil.getRelative(2 * i, 0, 0).setType(Material.GRAVEL);
+            ceil.getRelative(2 * i, 0, 1).setType(Material.GRAVEL);
+            ceil.getRelative(i, 0, -2).setType(Material.GRAVEL);
+            ceil.getRelative(i, 0, 2).setType(Material.GRAVEL);
 
             SimpleBlock[] blocks = new SimpleBlock[7];
             blocks[0] = ceil.getRelative(3 * i, 0, -1);

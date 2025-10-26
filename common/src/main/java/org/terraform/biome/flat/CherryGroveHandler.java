@@ -115,7 +115,7 @@ public class CherryGroveHandler extends BiomeHandler {
                                     Material.STONE,
                                     Material.STONE,
                                     Material.STONE,
-                                    Material.MOSSY_COBBLESTONE
+                                    Material.GRAVEL
                             ).setRadius(GenUtils.randInt(random, 3, 5)).setRY(GenUtils.randInt(random, 6, 10)).build();
                     default -> { // Tree (15/20)
                         if (random.nextBoolean())  // small trees

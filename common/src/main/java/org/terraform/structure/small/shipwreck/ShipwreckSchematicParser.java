@@ -51,7 +51,7 @@ public class ShipwreckSchematicParser extends SchematicParser {
                             Material.COBBLESTONE,
                             Material.COBBLESTONE,
                             Material.COBBLESTONE,
-                            Material.MOSSY_COBBLESTONE
+                            Material.GRAVEL
                     ).name().toLowerCase(Locale.ENGLISH)
             ));
         }

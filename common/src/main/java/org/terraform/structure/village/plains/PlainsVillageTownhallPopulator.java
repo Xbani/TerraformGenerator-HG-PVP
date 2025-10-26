@@ -87,7 +87,7 @@ public class PlainsVillageTownhallPopulator extends RoomPopulatorAbstract {
                                 Material.COBBLESTONE,
                                 Material.COBBLESTONE,
                                 Material.COBBLESTONE,
-                                Material.MOSSY_COBBLESTONE
+                                Material.GRAVEL
                         );
                     }
                     else if (data.getType(x + nx, y - 1, z + nz).toString().contains("LOG")) {

@@ -52,7 +52,7 @@ public class MossyCavePopulator extends AbstractCavePopulator {
             }
             else if (BlockUtils.isStoneLike(w.getUp().getType())) {
                 new StalactiteBuilder(Material.COBBLESTONE_WALL, Material.MOSSY_COBBLESTONE_WALL).setSolidBlockType(Material.COBBLESTONE,
-                        Material.MOSSY_COBBLESTONE
+                        Material.GRAVEL
                 ).setFacingUp(false).setVerticalSpace(caveHeight).build(random, w);
                 // w.downLPillar(random, h, Material.COBBLESTONE_WALL);
             }
@@ -80,7 +80,7 @@ public class MossyCavePopulator extends AbstractCavePopulator {
                 }
                 else if (BlockUtils.isStoneLike(floor.getType())) {
                     new StalactiteBuilder(Material.COBBLESTONE_WALL, Material.MOSSY_COBBLESTONE_WALL).setSolidBlockType(Material.COBBLESTONE,
-                            Material.MOSSY_COBBLESTONE
+                            Material.GRAVEL
                     ).setFacingUp(true).setVerticalSpace(caveHeight).build(random, w);
                     // w.downLPillar(random, h, Material.COBBLESTONE_WALL);
                 }

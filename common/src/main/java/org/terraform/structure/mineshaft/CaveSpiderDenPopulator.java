@@ -44,7 +44,7 @@ public class CaveSpiderDenPopulator extends RoomPopulatorAbstract {
                             Material.OAK_SLAB,
                             Material.OAK_PLANKS,
                             Material.OAK_SLAB,
-                            Material.MOSSY_COBBLESTONE,
+                            Material.GRAVEL,
                             Material.COBBLESTONE,
                             Material.COBBLESTONE_SLAB
                     ));
