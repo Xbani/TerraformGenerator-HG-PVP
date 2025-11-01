@@ -270,7 +270,7 @@ public class JungleHandler extends BiomeHandler {
                                                           Material.COBBLESTONE,
                                                           Material.ANDESITE,
                                                           Material.STONE,
-                                                          Material.GRAVEL
+                                                          Material.MOSSY_COBBLESTONE
                                                   ).toString().toLowerCase(Locale.ENGLISH)));
                 super.applyData(block, data);
             }

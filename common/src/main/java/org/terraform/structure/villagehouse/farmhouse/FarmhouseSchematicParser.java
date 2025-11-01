@@ -36,7 +36,7 @@ public class FarmhouseSchematicParser extends SchematicParser {
                             Material.COBBLESTONE,
                             Material.COBBLESTONE,
                             Material.COBBLESTONE,
-                            Material.GRAVEL
+                            Material.MOSSY_COBBLESTONE
                     ).toString().toLowerCase(Locale.ENGLISH)
             ));
             super.applyData(block, data);
