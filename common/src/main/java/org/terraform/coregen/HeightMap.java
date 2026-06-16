@@ -38,22 +38,52 @@ public enum HeightMap {
             FastNoise noise = NoiseCacheHandler.getNoise(tw, NoiseCacheEntry.HEIGHTMAP_CORE, world -> {
                 FastNoise n = new FastNoise((int) world.getSeed());
                 n.SetNoiseType(NoiseType.SimplexFractal);
-                n.SetFractalOctaves(2); // Poor detail after blurs. Rely on Attrition for detail
+                n.SetFractalOctaves(2);
                 n.SetFrequency(TConfig.c.HEIGHT_MAP_CORE_FREQUENCY);
                 return n;
             });
 
-            // 7 blocks elevated from the sea level
             double height = 10 * noise.GetNoise(x, z) + 7 + TerraformGenerator.seaLevel;
 
-            // Plateau-out height to make it flat-ish
             if (height > TerraformGenerator.seaLevel + 10) {
                 height = (height - TerraformGenerator.seaLevel - 10) * 0.1 + TerraformGenerator.seaLevel + 10;
             }
 
-            // This is fucking nonsense
+            if (TConfig.c.HEIGHT_MAP_FLATTEN_CUBOID_ENABLED) {
+                height = forceFlatEdges(
+                        x, z,
+                        height,
+                        TConfig.c.HEIGHT_MAP_FLATTEN_CUBOID_MIN_X,
+                        TConfig.c.HEIGHT_MAP_FLATTEN_CUBOID_MIN_Z,
+                        TConfig.c.HEIGHT_MAP_FLATTEN_CUBOID_MAX_X,
+                        TConfig.c.HEIGHT_MAP_FLATTEN_CUBOID_MAX_Z,
+                        TConfig.c.HEIGHT_MAP_FLATTEN_CUBOID_Y,
+                        TConfig.c.HEIGHT_MAP_FLATTEN_CUBOID_FADE_DISTANCE
+                );
+            }
 
             return height;
+        }
+
+        private static double forceFlatEdges(
+                int x, int z,
+                double height,
+                int minX, int minZ, int maxX, int maxZ,
+                int flatY,
+                int fadeDistance
+        ) {
+            if (x < minX || x > maxX || z < minZ || z > maxZ) return height;
+
+            if (fadeDistance <= 0) return flatY;
+
+            int dx = Math.min(Math.abs(x - minX), Math.abs(x - maxX));
+            int dz = Math.min(Math.abs(z - minZ), Math.abs(z - maxZ));
+            int d = Math.min(dx, dz);
+
+            if (d >= fadeDistance) return height;
+
+            double t = (double) d / (double) fadeDistance; // 0=edge -> 1=fadeDistance
+            return flatY + (height - flatY) * t;
         }
     }, ATTRITION {
         @Override

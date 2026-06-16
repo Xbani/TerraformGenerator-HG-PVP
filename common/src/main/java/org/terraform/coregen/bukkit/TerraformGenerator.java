@@ -9,6 +9,7 @@ import org.bukkit.generator.WorldInfo;
 import org.jetbrains.annotations.NotNull;
 import org.terraform.biome.BiomeBank;
 import org.terraform.biome.BiomeHandler;
+import org.terraform.cave.TerrainControlCanyonCarver;
 import org.terraform.coregen.ChunkCache;
 import org.terraform.coregen.HeightMap;
 import org.terraform.coregen.TerraformPopulator;
@@ -35,6 +36,7 @@ public class TerraformGenerator extends ChunkGenerator {
     // practice, that doesn't matter
     public static ConcurrentLRUCache<TWCoordPair, ChunkCache> CHUNK_CACHE;
     public static int seaLevel = 62;
+    private static final TerrainControlCanyonCarver TERRAIN_CONTROL_CANYON_CARVER = new TerrainControlCanyonCarver();
 
     public static void updateSeaLevelFromConfig() {
         seaLevel = TConfig.c.HEIGHT_MAP_SEA_LEVEL;
@@ -214,6 +216,7 @@ public class TerraformGenerator extends ChunkGenerator {
                 }
             }
         }
+        TERRAIN_CONTROL_CANYON_CARVER.carve(tw, chunkX, chunkZ, chunkData, cache);
         // After this whole song and dance, place bedrock in one operation
         chunkData.setRegion(0,TerraformGeneratorPlugin.injector.getMinY(), 0,
                 16,TerraformGeneratorPlugin.injector.getMinY()+1, 16, CommonMat.BEDROCK);
