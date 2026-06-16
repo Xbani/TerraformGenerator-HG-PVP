@@ -393,6 +393,30 @@ public class TConfig extends YamlFileInterface {
     @YamlKey("caves.structure-suppression-threshold")
     public float CAVES_STRUCTURE_SUPPRESSION_THRESHOLD = 0.5f;
     // CAVES_ALLOW_FLOODED_RAVINES("caves.allow-flooded-ravines",true),
+    @YamlComment("TerrainControl 2.7.2 canyon/ravine algorithm port. Disable this to keep only TerraformGenerator's noise ravines.")
+    @YamlKey("caves.terrain-control-canyons.enabled")
+    public boolean CAVES_TERRAIN_CONTROL_CANYONS_ENABLED = false;
+    @YamlComment("Percent chance per source chunk, same meaning as TerrainControl CanyonRarity.")
+    @YamlKey("caves.terrain-control-canyons.rarity")
+    public int CAVES_TERRAIN_CONTROL_CANYONS_RARITY = 2;
+    @YamlKey("caves.terrain-control-canyons.min-altitude")
+    public int CAVES_TERRAIN_CONTROL_CANYONS_MIN_ALTITUDE = 20;
+    @YamlKey("caves.terrain-control-canyons.max-altitude")
+    public int CAVES_TERRAIN_CONTROL_CANYONS_MAX_ALTITUDE = 68;
+    @YamlKey("caves.terrain-control-canyons.min-length")
+    public int CAVES_TERRAIN_CONTROL_CANYONS_MIN_LENGTH = 84;
+    @YamlKey("caves.terrain-control-canyons.max-length")
+    public int CAVES_TERRAIN_CONTROL_CANYONS_MAX_LENGTH = 112;
+    @YamlComment("Vertical scale of a canyon. TerrainControl default is 3.0.")
+    @YamlKey("caves.terrain-control-canyons.depth")
+    public double CAVES_TERRAIN_CONTROL_CANYONS_DEPTH = 3.0d;
+    @YamlComment("Number of independent canyon paths per triggered source chunk. TerrainControl hardcodes this to 1.")
+    @YamlKey("caves.terrain-control-canyons.levels")
+    public int CAVES_TERRAIN_CONTROL_CANYONS_LEVELS = 1;
+    @YamlKey("caves.terrain-control-canyons.lava-level")
+    public int CAVES_TERRAIN_CONTROL_CANYONS_LAVA_LEVEL = 10;
+    @YamlKey("caves.terrain-control-canyons.allow-flooded")
+    public boolean CAVES_TERRAIN_CONTROL_CANYONS_ALLOW_FLOODED = false;
 
     // -=[STRUCTURES]=-
     @YamlComment("This controls the distance between each large structure. By default, each biome section is 128 blocks wide")
@@ -990,6 +1014,28 @@ public class TConfig extends YamlFileInterface {
     @YamlComment("What language file should be used?")
     @YamlKey("lang")
     public String LANGUAGE_FILE = "eng.yml";
+
+    @YamlKey("heightmap.flatten-cuboid.enabled")
+    public boolean HEIGHT_MAP_FLATTEN_CUBOID_ENABLED = false;
+
+    @YamlKey("heightmap.flatten-cuboid.min-x")
+    public int HEIGHT_MAP_FLATTEN_CUBOID_MIN_X = -500;
+
+    @YamlKey("heightmap.flatten-cuboid.min-z")
+    public int HEIGHT_MAP_FLATTEN_CUBOID_MIN_Z = -500;
+
+    @YamlKey("heightmap.flatten-cuboid.max-x")
+    public int HEIGHT_MAP_FLATTEN_CUBOID_MAX_X = 500;
+
+    @YamlKey("heightmap.flatten-cuboid.max-z")
+    public int HEIGHT_MAP_FLATTEN_CUBOID_MAX_Z = 500;
+
+    @YamlKey("heightmap.flatten-cuboid.y")
+    public int HEIGHT_MAP_FLATTEN_CUBOID_Y = 64;
+
+    @YamlKey("heightmap.flatten-cuboid.fade-distance")
+    public int HEIGHT_MAP_FLATTEN_CUBOID_FADE_DISTANCE = 12;
+
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean areCavesEnabled() {
