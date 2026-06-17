@@ -417,6 +417,53 @@ public class TConfig extends YamlFileInterface {
     public int CAVES_TERRAIN_CONTROL_CANYONS_LAVA_LEVEL = 10;
     @YamlKey("caves.terrain-control-canyons.allow-flooded")
     public boolean CAVES_TERRAIN_CONTROL_CANYONS_ALLOW_FLOODED = false;
+    @YamlComment("TerrainControl 2.7.2 SmallLake resource algorithm port. Disabled by default.")
+    @YamlKey("caves.terrain-control-small-lakes.enabled")
+    public boolean CAVES_TERRAIN_CONTROL_SMALL_LAKES_ENABLED = false;
+    @YamlKey("caves.terrain-control-small-lakes.water.enabled")
+    public boolean CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_ENABLED = true;
+    @YamlKey("caves.terrain-control-small-lakes.water.frequency")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_FREQUENCY = 4;
+    @YamlKey("caves.terrain-control-small-lakes.water.rarity")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_RARITY = 7;
+    @YamlKey("caves.terrain-control-small-lakes.water.min-altitude")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_MIN_ALTITUDE = 8;
+    @YamlKey("caves.terrain-control-small-lakes.water.max-altitude")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_MAX_ALTITUDE = 120;
+    @YamlKey("caves.terrain-control-small-lakes.water.min-ellipsoids")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_MIN_ELLIPSOIDS = 4;
+    @YamlKey("caves.terrain-control-small-lakes.water.max-ellipsoids")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_MAX_ELLIPSOIDS = 7;
+    @YamlKey("caves.terrain-control-small-lakes.water.horizontal-size-min")
+    public double CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_HORIZONTAL_SIZE_MIN = 3.0d;
+    @YamlKey("caves.terrain-control-small-lakes.water.horizontal-size-max")
+    public double CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_HORIZONTAL_SIZE_MAX = 9.0d;
+    @YamlKey("caves.terrain-control-small-lakes.water.vertical-size-min")
+    public double CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_VERTICAL_SIZE_MIN = 2.0d;
+    @YamlKey("caves.terrain-control-small-lakes.water.vertical-size-max")
+    public double CAVES_TERRAIN_CONTROL_SMALL_LAKES_WATER_VERTICAL_SIZE_MAX = 6.0d;
+    @YamlKey("caves.terrain-control-small-lakes.lava.enabled")
+    public boolean CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_ENABLED = true;
+    @YamlKey("caves.terrain-control-small-lakes.lava.frequency")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_FREQUENCY = 2;
+    @YamlKey("caves.terrain-control-small-lakes.lava.rarity")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_RARITY = 1;
+    @YamlKey("caves.terrain-control-small-lakes.lava.min-altitude")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_MIN_ALTITUDE = 8;
+    @YamlKey("caves.terrain-control-small-lakes.lava.max-altitude")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_MAX_ALTITUDE = 120;
+    @YamlKey("caves.terrain-control-small-lakes.lava.min-ellipsoids")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_MIN_ELLIPSOIDS = 4;
+    @YamlKey("caves.terrain-control-small-lakes.lava.max-ellipsoids")
+    public int CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_MAX_ELLIPSOIDS = 7;
+    @YamlKey("caves.terrain-control-small-lakes.lava.horizontal-size-min")
+    public double CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_HORIZONTAL_SIZE_MIN = 3.0d;
+    @YamlKey("caves.terrain-control-small-lakes.lava.horizontal-size-max")
+    public double CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_HORIZONTAL_SIZE_MAX = 9.0d;
+    @YamlKey("caves.terrain-control-small-lakes.lava.vertical-size-min")
+    public double CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_VERTICAL_SIZE_MIN = 2.0d;
+    @YamlKey("caves.terrain-control-small-lakes.lava.vertical-size-max")
+    public double CAVES_TERRAIN_CONTROL_SMALL_LAKES_LAVA_VERTICAL_SIZE_MAX = 6.0d;
 
     // -=[STRUCTURES]=-
     @YamlComment("This controls the distance between each large structure. By default, each biome section is 128 blocks wide")
