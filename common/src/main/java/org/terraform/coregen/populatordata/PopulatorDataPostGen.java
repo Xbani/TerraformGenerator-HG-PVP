@@ -165,6 +165,27 @@ public class PopulatorDataPostGen extends PopulatorDataICABiomeWriterAbstract im
     }
 
     @Override
+    public void setChargedCreeperSpawner(int rawX, int rawY, int rawZ) {
+        if (!TConfig.areAnimalsEnabled()) {
+            return;
+        }
+        Block block = w.getBlockAt(rawX, rawY, rawZ);
+        block.setType(Material.SPAWNER, false);
+        try {
+            CreatureSpawner spawner = (CreatureSpawner) block.getState();
+            spawner.setSpawnedType(EntityType.CREEPER);
+            ChargedCreeperSpawner.apply(spawner);
+            spawner.update(true, false);
+        }
+        catch (IllegalStateException | ClassCastException e) {
+            TerraformGeneratorPlugin.logger.error(
+                    "Failed to configure charged creeper spawner at " + rawX + "," + rawY + "," + rawZ
+            );
+            TerraformGeneratorPlugin.logger.stackTrace(e);
+        }
+    }
+
+    @Override
     public void lootTableChest(int x, int y, int z, TerraLootTable table) {
         TerraformGeneratorPlugin.injector.getICAData(w.getBlockAt(x, y, z).getChunk()).lootTableChest(x, y, z, table);
     }

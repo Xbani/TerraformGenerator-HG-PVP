@@ -108,6 +108,14 @@ public abstract class PopulatorDataAbstract {
 
     public abstract void setSpawner(int rawX, int rawY, int rawZ, EntityType type);
 
+    /**
+     * Places a spawner whose SpawnData describes a powered creeper. Implementations
+     * with block-state access should override this method to persist the powered flag.
+     */
+    public void setChargedCreeperSpawner(int rawX, int rawY, int rawZ) {
+        setSpawner(rawX, rawY, rawZ, EntityType.CREEPER);
+    }
+
     public abstract void lootTableChest(int x, int y, int z, TerraLootTable table);
 
     public abstract @NotNull TerraformWorld getTerraformWorld();

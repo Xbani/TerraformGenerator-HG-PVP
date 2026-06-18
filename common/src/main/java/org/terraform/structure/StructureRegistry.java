@@ -16,6 +16,7 @@ import org.terraform.structure.monument.MonumentPopulator;
 import org.terraform.structure.pillager.mansion.MansionPopulator;
 import org.terraform.structure.pillager.outpost.OutpostPopulator;
 import org.terraform.structure.pyramid.PyramidPopulator;
+import org.terraform.structure.pyramidhg.PyramidHGPopulator;
 import org.terraform.structure.small.DesertWellPopulator;
 import org.terraform.structure.small.WitchHutPopulator;
 import org.terraform.structure.small.buriedtreasure.BuriedTreasurePopulator;
@@ -124,6 +125,7 @@ public class StructureRegistry {
         registerStructure(StructureType.VILLAGE, new OutpostPopulator());
 
         registerStructure(StructureType.MEGA_DUNGEON, new PyramidPopulator());
+        registerStructure(StructureType.MEGA_DUNGEON, new PyramidHGPopulator());
         registerStructure(StructureType.MEGA_DUNGEON, new MonumentPopulator());
         registerStructure(StructureType.MEGA_DUNGEON, new StrongholdPopulator());
         registerStructure(StructureType.MEGA_DUNGEON, new MansionPopulator());

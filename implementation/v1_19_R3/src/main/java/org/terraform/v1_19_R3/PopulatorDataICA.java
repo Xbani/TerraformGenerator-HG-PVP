@@ -148,6 +148,11 @@ public class PopulatorDataICA extends PopulatorDataICABiomeWriterAbstract {
     }
 
     @Override
+    public void setChargedCreeperSpawner(int rawX, int rawY, int rawZ) {
+        parent.setChargedCreeperSpawner(rawX, rawY, rawZ);
+    }
+
+    @Override
     public void lootTableChest(int x, int y, int z, @NotNull TerraLootTable table) {
         BlockPosition pos = new BlockPosition(x, y, z);
         TileEntityLootable.a(ica, RandomSource.a(tw.getHashedRand(x, y, z).nextLong()), pos, getLootTable(table));
