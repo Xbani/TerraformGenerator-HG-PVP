@@ -52,6 +52,7 @@ public class PyramidHGMainRoom extends RoomPopulatorAbstract {
         for (BlockFace face : BlockUtils.directBlockFaces) {
             floorCenter.getRelative(face, 2).setType(Material.ORANGE_TERRACOTTA);
         }
+        placeCenterTrap(base);
 
         SimpleBlock ceiling = floorCenter.getUp(room.getHeight());
         ceiling.setType(Material.BLUE_TERRACOTTA);
@@ -93,6 +94,16 @@ public class PyramidHGMainRoom extends RoomPopulatorAbstract {
         chest.setFacing(direction.getOppositeFace());
         target.setBlockData(chest);
         data.lootTableChest(target.getX(), target.getY(), target.getZ(), TerraLootTable.SIMPLE_DUNGEON);
+    }
+
+    private void placeCenterTrap(@NotNull SimpleBlock center) {
+        center.setType(Material.STONE_PRESSURE_PLATE);
+        SimpleBlock tntCenter = center.getDown(2);
+        for (int x = -1; x <= 1; x++) {
+            for (int z = -1; z <= 1; z++) {
+                tntCenter.getRelative(x, 0, z).setType(Material.TNT);
+            }
+        }
     }
 
     private void placePillar(@NotNull Wall base, int height) {
