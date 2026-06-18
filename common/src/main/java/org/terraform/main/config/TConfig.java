@@ -477,6 +477,10 @@ public class TConfig extends YamlFileInterface {
     public boolean STRUCTURES_PYRAMID_SPAWN_ELDER_GUARDIAN = true;
     @YamlKey("structures.pyramid.suspicious-sand-per-antechamber")
     public int STRUCTURES_PYRAMID_SUSPICIOUS_SAND_COUNT_PER_ANTECHAMBER = 4;
+    @YamlKey("structures.pyramid-hg.enabled")
+    public boolean STRUCTURES_PYRAMID_HG_ENABLED = false;
+    @YamlKey("structures.pyramid-hg.spawn-ratio")
+    public double STRUCTURES_PYRAMID_HG_SPAWNRATIO = 0.3d;
     @YamlKey("structures.villagehouse.spawnratio")
     public double STRUCTURES_VILLAGEHOUSE_SPAWNRATIO = 0.8d;
     @YamlKey("structures.mountainhouse.enabled")

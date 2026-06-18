@@ -91,6 +91,11 @@ public class PopulatorDataColumn extends PopulatorDataAbstract {
     }
 
     @Override
+    public void setChargedCreeperSpawner(int rawX, int rawY, int rawZ) {
+        delegate.setChargedCreeperSpawner(rawX, rawY, rawZ);
+    }
+
+    @Override
     public void lootTableChest(int x, int y, int z, TerraLootTable table) {
         if (x != constrainX || z != constrainZ) {
             throw new IllegalArgumentException("Column Constraint Write Violation");

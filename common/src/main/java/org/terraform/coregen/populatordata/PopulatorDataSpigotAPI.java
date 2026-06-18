@@ -131,6 +131,31 @@ public class PopulatorDataSpigotAPI extends PopulatorDataAbstract
     }
 
     @Override
+    public void setChargedCreeperSpawner(int rawX, int rawY, int rawZ) {
+        if (!TConfig.areAnimalsEnabled()) {
+            return;
+        }
+        if (!lr.isInRegion(rawX, rawY, rawZ)) {
+            TerraformGeneratorPlugin.logger.error(
+                    "Tried to set charged creeper spawner outside of LR bounds at: " + rawX + "," + rawZ
+            );
+            return;
+        }
+        setType(rawX, rawY, rawZ, Material.SPAWNER);
+        try {
+            CreatureSpawner spawner = (CreatureSpawner) lr.getBlockState(rawX, rawY, rawZ);
+            spawner.setSpawnedType(EntityType.CREEPER);
+            ChargedCreeperSpawner.apply(spawner);
+            spawner.update(true, false);
+        }
+        catch (ClassCastException e) {
+            TerraformGeneratorPlugin.logger.error(
+                    "Failed to configure charged creeper spawner at " + rawX + "," + rawY + "," + rawZ
+            );
+        }
+    }
+
+    @Override
     public void lootTableChest(int x, int y, int z, @NotNull TerraLootTable table) {
         if (!lr.isInRegion(x, y, z)) {
             TerraformGeneratorPlugin.logger.error("Tried to lootTableChest outside of LR bounds at: "+x + "," + z + " from LR centered at chunk " + chunkX + "," + chunkZ);
