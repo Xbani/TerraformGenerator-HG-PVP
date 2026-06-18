@@ -507,6 +507,9 @@ public class TConfig extends YamlFileInterface {
     public boolean STRUCTURES_PYRAMID_HG_ENABLED = false;
     @YamlKey("structures.pyramid-hg.spawn-ratio")
     public double STRUCTURES_PYRAMID_HG_SPAWNRATIO = 0.3d;
+    @YamlComment("Chance from 0.0 to 1.0 for each main-room chest to be trapped.")
+    @YamlKey("structures.pyramid-hg.trapped-chest-chance")
+    public double STRUCTURES_PYRAMID_HG_TRAPPED_CHEST_CHANCE = 0.125d;
     @YamlKey("structures.villagehouse.spawnratio")
     public double STRUCTURES_VILLAGEHOUSE_SPAWNRATIO = 0.8d;
     @YamlKey("structures.mountainhouse.enabled")

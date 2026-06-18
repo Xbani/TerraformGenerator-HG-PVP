@@ -12,6 +12,7 @@ import org.terraform.coregen.populatordata.PopulatorDataAbstract;
 import org.terraform.data.SimpleBlock;
 import org.terraform.data.Wall;
 import org.terraform.main.TerraformGeneratorPlugin;
+import org.terraform.main.config.TConfig;
 import org.terraform.schematic.SchematicParser;
 import org.terraform.schematic.TerraSchematic;
 import org.terraform.structure.room.CubeRoom;
@@ -90,7 +91,10 @@ public class PyramidHGMainRoom extends RoomPopulatorAbstract {
                                 @NotNull BlockFace direction)
     {
         SimpleBlock target = center.getRelative(direction, 2);
-        Directional chest = (Directional) Bukkit.createBlockData(Material.CHEST);
+        double trappedChance = Math.max(0.0d,
+                Math.min(1.0d, TConfig.c.STRUCTURES_PYRAMID_HG_TRAPPED_CHEST_CHANCE));
+        Material chestType = rand.nextDouble() < trappedChance ? Material.TRAPPED_CHEST : Material.CHEST;
+        Directional chest = (Directional) Bukkit.createBlockData(chestType);
         chest.setFacing(direction.getOppositeFace());
         target.setBlockData(chest);
         data.lootTableChest(target.getX(), target.getY(), target.getZ(), TerraLootTable.SIMPLE_DUNGEON);
