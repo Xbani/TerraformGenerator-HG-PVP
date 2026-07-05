@@ -108,6 +108,15 @@ public enum HeightMap {
     public static final int MASK_VOLUME = MASK_DIAMETER*MASK_DIAMETER;
     private static final int upscaleSize = 3;
     public static int spawnFlatRadiusSquared = -324534;
+    private static SpawnMode spawnMode = SpawnMode.SIMPLE;
+    private static int spawnSimpleRadiusSquared = -1;
+    private static int spawnAdvancedRadius = 32;
+    private static int spawnAdvancedRadiusSquared = 32 * 32;
+    private static int spawnAdvancedCenterY = 68;
+    private static int spawnAdvancedEdgeY = 72;
+    private static int spawnAdvancedBlendDistance = 16;
+    private static int spawnAdvancedOuterRadius = 48;
+    private static int spawnAdvancedOuterRadiusSquared = 48 * 48;
     private static final ConcurrentLRUCache<BiomeSection, SectionBlurCache> BLUR_CACHE = new ConcurrentLRUCache<>(
         "BLUR_CACHE",64, (sect)->{
             SectionBlurCache newCache = new SectionBlurCache(
@@ -170,7 +179,7 @@ public enum HeightMap {
     }
 
     public static double getRawRiverDepth(TerraformWorld tw, int x, int z) {
-        if (Math.pow(x, 2) + Math.pow(z, 2) < spawnFlatRadiusSquared) {
+        if (isInsideSpawnNoRiverArea(x, z)) {
             return 0;
         }
         double depth = HeightMap.RIVER.getHeight(tw, x, z);
@@ -186,6 +195,7 @@ public enum HeightMap {
         }
 
         double height = getRiverlessHeight(tw, x, z);
+        height = applySpawnAreaHeight(x, z, height);
         height = getFlatSwampHeight(tw, x, z, height);
 
         // River Depth
@@ -233,7 +243,7 @@ public enum HeightMap {
             }
             else {
                 h = (float) BiomeBank.calculateHeightIndependentBiome(tw, x, z).getHandler().calculateHeight(tw, x, z);
-                if (Math.pow(x, 2) + Math.pow(z, 2) < spawnFlatRadiusSquared) {
+                if (spawnMode == SpawnMode.SIMPLE && isInsideRadiusSquared(x, z, spawnSimpleRadiusSquared)) {
                     h = (float) HeightMap.CORE.getHeight(tw, x, z);
                 }
             }
@@ -270,6 +280,31 @@ public enum HeightMap {
 
     public abstract double getHeight(TerraformWorld tw, int x, int z);
 
+    public static void initSpawnArea() {
+        spawnMode = SpawnMode.fromConfig(TConfig.c.HEIGHT_MAP_SPAWN_MODE);
+
+        int simpleRadius = Math.max(-1, TConfig.c.HEIGHT_MAP_SPAWN_FLAT_RADIUS);
+        spawnSimpleRadiusSquared = squareIfPositive(simpleRadius);
+
+        spawnAdvancedRadius = Math.max(0, TConfig.c.HEIGHT_MAP_SPAWN_ADVANCED_RADIUS);
+        spawnAdvancedRadiusSquared = squareIfPositive(spawnAdvancedRadius);
+        spawnAdvancedCenterY = TConfig.c.HEIGHT_MAP_SPAWN_ADVANCED_CENTER_Y;
+        spawnAdvancedEdgeY = TConfig.c.HEIGHT_MAP_SPAWN_ADVANCED_EDGE_Y;
+        spawnAdvancedBlendDistance = Math.max(0, TConfig.c.HEIGHT_MAP_SPAWN_ADVANCED_BLEND_DISTANCE);
+        spawnAdvancedOuterRadius = spawnAdvancedRadius + spawnAdvancedBlendDistance;
+        spawnAdvancedOuterRadiusSquared = squareIfPositive(spawnAdvancedOuterRadius);
+
+        if (spawnMode == SpawnMode.SIMPLE) {
+            spawnFlatRadiusSquared = spawnSimpleRadiusSquared;
+        }
+        else if (spawnMode == SpawnMode.ADVANCED) {
+            spawnFlatRadiusSquared = spawnAdvancedOuterRadiusSquared;
+        }
+        else {
+            spawnFlatRadiusSquared = -1;
+        }
+    }
+
     private static double getEffectiveRiverDepth(TerraformWorld tw, int x, int z) {
         double depth = getRawRiverDepth(tw, x, z);
         if (!TConfig.c.HEIGHT_MAP_FLAT_RIVER_ENABLED) {
@@ -289,5 +324,68 @@ public enum HeightMap {
         }
 
         return Math.min(height, TerraformGenerator.seaLevel - Math.max(0, TConfig.c.HEIGHT_MAP_FLAT_SWAMP_MIN_WATER_DEPTH));
+    }
+
+    private static double applySpawnAreaHeight(int x, int z, double baseHeight) {
+        if (spawnMode != SpawnMode.ADVANCED || spawnAdvancedRadius <= 0) {
+            return baseHeight;
+        }
+
+        double distance = Math.sqrt((double) x * (double) x + (double) z * (double) z);
+        if (distance <= spawnAdvancedRadius) {
+            double t = smoothStep(distance / (double) spawnAdvancedRadius);
+            return lerp(spawnAdvancedCenterY, spawnAdvancedEdgeY, t);
+        }
+
+        if (spawnAdvancedBlendDistance <= 0 || distance >= spawnAdvancedOuterRadius) {
+            return baseHeight;
+        }
+
+        double t = smoothStep((distance - spawnAdvancedRadius) / (double) spawnAdvancedBlendDistance);
+        return lerp(spawnAdvancedEdgeY, baseHeight, t);
+    }
+
+    private static boolean isInsideSpawnNoRiverArea(int x, int z) {
+        return switch (spawnMode) {
+            case SIMPLE -> isInsideRadiusSquared(x, z, spawnSimpleRadiusSquared);
+            case ADVANCED -> isInsideRadiusSquared(x, z, spawnAdvancedOuterRadiusSquared);
+            case NONE -> false;
+        };
+    }
+
+    private static int squareIfPositive(int radius) {
+        return radius > 0 ? radius * radius : -1;
+    }
+
+    private static boolean isInsideRadiusSquared(int x, int z, int radiusSquared) {
+        return radiusSquared > 0 && ((double) x * (double) x + (double) z * (double) z) < radiusSquared;
+    }
+
+    private static double smoothStep(double value) {
+        double t = Math.max(0, Math.min(1, value));
+        return t * t * (3 - 2 * t);
+    }
+
+    private static double lerp(double from, double to, double t) {
+        return from + (to - from) * t;
+    }
+
+    private enum SpawnMode {
+        NONE,
+        SIMPLE,
+        ADVANCED;
+
+        private static SpawnMode fromConfig(String value) {
+            if (value == null) {
+                return SIMPLE;
+            }
+
+            for (SpawnMode mode : values()) {
+                if (mode.name().equalsIgnoreCase(value)) {
+                    return mode;
+                }
+            }
+            return SIMPLE;
+        }
     }
 }

@@ -32,8 +32,18 @@ public class TConfig extends YamlFileInterface {
     public boolean HEIGHT_MAP_BEDROCK_LAVA = false;
     @YamlKey("heightmap.bedrock-density")
     public int HEIGHT_MAP_BEDROCK_DENSITY = 70;
+    @YamlKey("heightmap.spawn.mode")
+    public String HEIGHT_MAP_SPAWN_MODE = "simple";
     @YamlKey("heightmap.spawn-flat-radius")
     public int HEIGHT_MAP_SPAWN_FLAT_RADIUS = -1;
+    @YamlKey("heightmap.spawn.advanced.radius")
+    public int HEIGHT_MAP_SPAWN_ADVANCED_RADIUS = 32;
+    @YamlKey("heightmap.spawn.advanced.center-y")
+    public int HEIGHT_MAP_SPAWN_ADVANCED_CENTER_Y = 68;
+    @YamlKey("heightmap.spawn.advanced.edge-y")
+    public int HEIGHT_MAP_SPAWN_ADVANCED_EDGE_Y = 72;
+    @YamlKey("heightmap.spawn.advanced.blend-distance")
+    public int HEIGHT_MAP_SPAWN_ADVANCED_BLEND_DISTANCE = 16;
     @YamlKey("heightmap.flat_river.enabled")
     public boolean HEIGHT_MAP_FLAT_RIVER_ENABLED = true;
     @YamlKey("heightmap.flat_river.max-depth")

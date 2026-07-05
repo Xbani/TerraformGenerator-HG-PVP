@@ -98,13 +98,7 @@ public class TerraformGeneratorPlugin extends JavaPlugin implements Listener {
 
         GenUtils.initGenUtils();
         BlockUtils.initBlockUtils();
-
-
-        // Initiate the height map flat radius value
-        HeightMap.spawnFlatRadiusSquared = TConfig.c.HEIGHT_MAP_SPAWN_FLAT_RADIUS;
-        if (HeightMap.spawnFlatRadiusSquared > 0) {
-            HeightMap.spawnFlatRadiusSquared *= HeightMap.spawnFlatRadiusSquared;
-        }
+        HeightMap.initSpawnArea();
 
         BiomeBank.initSinglesConfig(); // Initiates single biome modes.
 
