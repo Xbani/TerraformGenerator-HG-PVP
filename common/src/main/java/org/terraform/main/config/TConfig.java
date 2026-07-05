@@ -484,6 +484,14 @@ public class TConfig extends YamlFileInterface {
     @YamlComment("Chance from 0.0 to 1.0 for each main-room chest to be trapped.")
     @YamlKey("structures.pyramid-hg.trapped-chest-chance")
     public double STRUCTURES_PYRAMID_HG_TRAPPED_CHEST_CHANCE = 0.125d;
+    @YamlKey("structures.vanilla-desert-pyramid.enabled")
+    public boolean STRUCTURES_VANILLA_DESERT_PYRAMID_ENABLED = true;
+    @YamlKey("structures.vanilla-desert-pyramid.spawn-ratio")
+    public double STRUCTURES_VANILLA_DESERT_PYRAMID_SPAWNRATIO = 0.3d;
+    @YamlKey("structures.vanilla-jungle-temple.enabled")
+    public boolean STRUCTURES_VANILLA_JUNGLE_TEMPLE_ENABLED = true;
+    @YamlKey("structures.vanilla-jungle-temple.spawn-ratio")
+    public double STRUCTURES_VANILLA_JUNGLE_TEMPLE_SPAWNRATIO = 0.3d;
     @YamlKey("structures.villagehouse.spawnratio")
     public double STRUCTURES_VILLAGEHOUSE_SPAWNRATIO = 0.8d;
     @YamlKey("structures.mountainhouse.enabled")

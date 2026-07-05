@@ -26,6 +26,8 @@ import org.terraform.structure.small.shipwreck.ShipwreckPopulator;
 import org.terraform.structure.stronghold.StrongholdPopulator;
 import org.terraform.structure.trailruins.TrailRuinsPopulator;
 import org.terraform.structure.trialchamber.TrialChamberPopulator;
+import org.terraform.structure.vanilla.VanillaDesertPyramidPopulator;
+import org.terraform.structure.vanilla.VanillaJungleTemplePopulator;
 import org.terraform.structure.village.VillagePopulator;
 import org.terraform.structure.villagehouse.VillageHousePopulator;
 import org.terraform.structure.warmoceanruins.WarmOceanRuinsPopulator;
@@ -69,6 +71,8 @@ public class StructureRegistry {
         registerStructure(StructureType.LARGE_MISC, new BadlandsMinePopulator());
         registerStructure(StructureType.LARGE_MISC, new WarmOceanRuinsPopulator());
         registerStructure(StructureType.LARGE_MISC, new TrailRuinsPopulator());
+        registerStructure(StructureType.LARGE_MISC, new VanillaDesertPyramidPopulator());
+        registerStructure(StructureType.LARGE_MISC, new VanillaJungleTemplePopulator());
 
         registerStructure(StructureType.SMALL, new SmallDungeonPopulator());
         registerStructure(StructureType.SMALL, new ShipwreckPopulator());
