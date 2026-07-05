@@ -186,9 +186,10 @@ public enum HeightMap {
         }
 
         double height = getRiverlessHeight(tw, x, z);
+        height = getFlatSwampHeight(tw, x, z, height);
 
         // River Depth
-        double depth = getRawRiverDepth(tw, x, z);
+        double depth = getEffectiveRiverDepth(tw, x, z);
 
         // Normal scenario: Shallow area
         if (height - depth >= TerraformGenerator.seaLevel - 15) {
@@ -267,4 +268,25 @@ public enum HeightMap {
     }
 
     public abstract double getHeight(TerraformWorld tw, int x, int z);
+
+    private static double getEffectiveRiverDepth(TerraformWorld tw, int x, int z) {
+        double depth = getRawRiverDepth(tw, x, z);
+        if (!TConfig.c.HEIGHT_MAP_FLAT_RIVER_ENABLED) {
+            return depth;
+        }
+        return Math.min(depth, Math.max(0, TConfig.c.HEIGHT_MAP_FLAT_RIVER_MAX_DEPTH));
+    }
+
+    private static double getFlatSwampHeight(TerraformWorld tw, int x, int z, double height) {
+        if (!TConfig.c.HEIGHT_MAP_FLAT_SWAMP_ENABLED) {
+            return height;
+        }
+
+        BiomeBank bank = BiomeBank.calculateHeightIndependentBiome(tw, x, z);
+        if (bank != BiomeBank.SWAMP && bank != BiomeBank.MANGROVE) {
+            return height;
+        }
+
+        return Math.min(height, TerraformGenerator.seaLevel - Math.max(0, TConfig.c.HEIGHT_MAP_FLAT_SWAMP_MIN_WATER_DEPTH));
+    }
 }

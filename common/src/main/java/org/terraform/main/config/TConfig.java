@@ -34,6 +34,14 @@ public class TConfig extends YamlFileInterface {
     public int HEIGHT_MAP_BEDROCK_DENSITY = 70;
     @YamlKey("heightmap.spawn-flat-radius")
     public int HEIGHT_MAP_SPAWN_FLAT_RADIUS = -1;
+    @YamlKey("heightmap.flat_river.enabled")
+    public boolean HEIGHT_MAP_FLAT_RIVER_ENABLED = true;
+    @YamlKey("heightmap.flat_river.max-depth")
+    public int HEIGHT_MAP_FLAT_RIVER_MAX_DEPTH = 3;
+    @YamlKey("heightmap.flat_swamp.enabled")
+    public boolean HEIGHT_MAP_FLAT_SWAMP_ENABLED = true;
+    @YamlKey("heightmap.flat_swamp.min-water-depth")
+    public int HEIGHT_MAP_FLAT_SWAMP_MIN_WATER_DEPTH = 3;
 
     // -=[CLIMATES]=-
     @YamlKey("climate.humid-vegetation.minimum-temperature")
