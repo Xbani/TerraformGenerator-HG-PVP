@@ -52,7 +52,7 @@ public class SummonStructureCommand extends TerraCommand {
 
     @Override
     public boolean hasPermission(@NotNull CommandSender sender) {
-        return sender.isOp();
+        return sender.hasPermission("terraformgenerator.summon");
     }
 
     @Override
