@@ -92,6 +92,12 @@ public class MangroveHandler extends BiomeHandler {
             if (att + surfaceY > TerraformGenerator.seaLevel) {
                 att = TerraformGenerator.seaLevel - surfaceY;
             }
+            if (TConfig.c.HEIGHT_MAP_FLAT_SWAMP_ENABLED) {
+                int maxSurfaceY = getFlatSwampSurfaceY();
+                if (att + surfaceY > maxSurfaceY) {
+                    att = Math.max(0, maxSurfaceY - surfaceY);
+                }
+            }
             for (int i = 1; i <= att; i++) {
                 if (i < att) {
                     chunk.setBlock(x, surfaceY + i, z, getSurfaceCrust(random)[1]);
@@ -197,7 +203,18 @@ public class MangroveHandler extends BiomeHandler {
             height = 3;
         }
 
-        return height;
+        return getFlatSwampHeight(height);
+    }
+
+    private static double getFlatSwampHeight(double height) {
+        if (!TConfig.c.HEIGHT_MAP_FLAT_SWAMP_ENABLED) {
+            return height;
+        }
+        return Math.min(height, getFlatSwampSurfaceY());
+    }
+
+    private static int getFlatSwampSurfaceY() {
+        return TerraformGenerator.seaLevel - Math.max(0, TConfig.c.HEIGHT_MAP_FLAT_SWAMP_MIN_WATER_DEPTH);
     }
 
 }
