@@ -51,7 +51,7 @@ public class TConfig extends YamlFileInterface {
     @YamlKey("heightmap.flat_swamp.enabled")
     public boolean HEIGHT_MAP_FLAT_SWAMP_ENABLED = true;
     @YamlKey("heightmap.flat_swamp.min-water-depth")
-    public int HEIGHT_MAP_FLAT_SWAMP_MIN_WATER_DEPTH = 3;
+    public int HEIGHT_MAP_FLAT_SWAMP_MIN_WATER_DEPTH = 1;
 
     // -=[CLIMATES]=-
     @YamlKey("climate.humid-vegetation.minimum-temperature")
