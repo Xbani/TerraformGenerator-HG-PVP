@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.terraform.biome.BiomeBank;
 import org.terraform.coregen.HeightMap;
 import org.terraform.coregen.populatordata.PopulatorDataAbstract;
+import org.terraform.data.CoordPair;
 import org.terraform.data.MegaChunk;
 import org.terraform.data.TerraformWorld;
 import org.terraform.main.TerraformGeneratorPlugin;
@@ -35,9 +36,9 @@ public abstract class VanillaStructurePopulator extends SingleMegaChunkStructure
         }
 
         MegaChunk mc = new MegaChunk(data.getChunkX(), data.getChunkZ());
-        int[] coords = mc.getCenterBiomeSectionBlockCoords();
-        int x = coords[0];
-        int z = coords[1];
+        CoordPair coords = mc.getCenterBiomeSectionBlockCoords();
+        int x = coords.x();
+        int z = coords.z();
         int y = HeightMap.getBlockHeight(tw, x, z) + getYOffset();
         Random random = getHashedRandom(tw, data.getChunkX(), data.getChunkZ());
         BlockFace facing = BlockUtils.getDirectBlockFace(random);

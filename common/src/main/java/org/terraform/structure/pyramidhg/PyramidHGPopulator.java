@@ -9,6 +9,7 @@ import org.terraform.biome.BiomeBank;
 import org.terraform.coregen.HeightMap;
 import org.terraform.coregen.bukkit.TerraformGenerator;
 import org.terraform.coregen.populatordata.PopulatorDataAbstract;
+import org.terraform.data.CoordPair;
 import org.terraform.data.MegaChunk;
 import org.terraform.data.SimpleBlock;
 import org.terraform.data.TerraformWorld;
@@ -45,9 +46,9 @@ public class PyramidHGPopulator extends SingleMegaChunkStructurePopulator {
         if (!isEnabled()) {
             return;
         }
-        int[] coords = new MegaChunk(data.getChunkX(), data.getChunkZ()).getCenterBiomeSectionBlockCoords();
-        int x = coords[0];
-        int z = coords[1];
+        CoordPair coords = new MegaChunk(data.getChunkX(), data.getChunkZ()).getCenterBiomeSectionBlockCoords();
+        int x = coords.x();
+        int z = coords.z();
         int y = HeightMap.getBlockHeight(tw, x, z);
         try {
             spawnPyramid(tw, tw.getHashedRand(x, y, z, 8211222), data, x, y, z);
