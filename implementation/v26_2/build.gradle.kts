@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     compileOnly(project(":common"))
-    paperweight.paperDevBundle("26.2.build.+")
+    paperweight.paperDevBundle("26.2.build.59-beta")
 	
 	compileOnly("org.jetbrains:annotations:20.1.0")
     compileOnly("com.github.AvarionMC:yaml:1.1.7")

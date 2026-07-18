@@ -44,6 +44,8 @@ public class TConfig extends YamlFileInterface {
     public int HEIGHT_MAP_SPAWN_ADVANCED_EDGE_Y = 72;
     @YamlKey("heightmap.spawn.advanced.blend-distance")
     public int HEIGHT_MAP_SPAWN_ADVANCED_BLEND_DISTANCE = 16;
+    @YamlKey("heightmap.spawn.surface-repair.enabled")
+    public boolean HEIGHT_MAP_SPAWN_SURFACE_REPAIR_ENABLED = false;
     @YamlKey("heightmap.flat_river.enabled")
     public boolean HEIGHT_MAP_FLAT_RIVER_ENABLED = true;
     @YamlKey("heightmap.flat_river.max-depth")

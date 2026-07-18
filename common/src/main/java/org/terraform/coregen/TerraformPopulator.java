@@ -270,5 +270,41 @@ public class TerraformPopulator extends BlockPopulator {
                 spop.populate(tw, data);
             }
         }
+        repairSpawnSurface(tw, data);
+    }
+
+    private void repairSpawnSurface(@NotNull TerraformWorld tw,
+                                    @NotNull PopulatorDataAbstract data) {
+        if (!TConfig.c.HEIGHT_MAP_SPAWN_SURFACE_REPAIR_ENABLED) return;
+
+        int minX = data.getChunkX() * 16;
+        int minZ = data.getChunkZ() * 16;
+        for (int x = minX; x < minX + 16; x++) {
+            for (int z = minZ; z < minZ + 16; z++) {
+                if (!HeightMap.isInsideSpawnCoreArea(x, z)) continue;
+
+                // Preserve the existing biome surface and only repair a missing
+                // block left by a lake, cave or another late population pass.
+                int surfaceY = HeightMap.getSpawnCoreSurfaceY(tw, x, z);
+                if (!data.getType(x, surfaceY, z).isSolid()) {
+                    BiomeBank biome = tw.getBiomeBank(x, surfaceY, z);
+                    Material[] crust = biome.getHandler().getSurfaceCrust(tw.getHashedRand(712271, x, z));
+                    Material surfaceMaterial = crust.length == 0 ? Material.STONE : safeSurfaceMaterial(crust[0]);
+                    data.setType(x, surfaceY, z, surfaceMaterial);
+                }
+            }
+        }
+    }
+
+    private Material safeSurfaceMaterial(@NotNull Material biomeSurface) {
+        return switch (biomeSurface) {
+            case SAND -> Material.SANDSTONE;
+            case RED_SAND -> Material.RED_SANDSTONE;
+            case GRAVEL -> Material.COBBLESTONE;
+            case GRASS_BLOCK, DIRT, COARSE_DIRT, ROOTED_DIRT, PODZOL, MYCELIUM,
+                 MUD, STONE, COBBLESTONE, SANDSTONE, RED_SANDSTONE, SNOW_BLOCK,
+                 WHITE_CONCRETE -> biomeSurface;
+            default -> Material.STONE;
+        };
     }
 }

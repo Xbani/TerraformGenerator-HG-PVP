@@ -353,12 +353,42 @@ public enum HeightMap {
         };
     }
 
+    /**
+     * Returns the central spawn disc only, excluding the outer terrain blend.
+     * In advanced mode this is the configured player spawn radius.
+     */
+    public static boolean isInsideSpawnCoreArea(int x, int z) {
+        return switch (spawnMode) {
+            case SIMPLE -> isInsideRadiusSquaredInclusive(x, z, spawnSimpleRadiusSquared);
+            case ADVANCED -> isInsideRadiusSquaredInclusive(x, z, spawnAdvancedRadiusSquared);
+            case NONE -> false;
+        };
+    }
+
+    /**
+     * Returns the mathematical surface of the central spawn shape without
+     * consulting biome height, rivers, swamps, caves or transformed-height caches.
+     * Callers must first check {@link #isInsideSpawnCoreArea(int, int)}.
+     */
+    public static int getSpawnCoreSurfaceY(TerraformWorld tw, int x, int z) {
+        if (spawnMode == SpawnMode.ADVANCED && spawnAdvancedRadius > 0) {
+            double distance = Math.sqrt((double) x * (double) x + (double) z * (double) z);
+            double t = smoothStep(distance / (double) spawnAdvancedRadius);
+            return (int) lerp(spawnAdvancedCenterY, spawnAdvancedEdgeY, t);
+        }
+        return getBlockHeight(tw, x, z);
+    }
+
     private static int squareIfPositive(int radius) {
         return radius > 0 ? radius * radius : -1;
     }
 
     private static boolean isInsideRadiusSquared(int x, int z, int radiusSquared) {
         return radiusSquared > 0 && ((double) x * (double) x + (double) z * (double) z) < radiusSquared;
+    }
+
+    private static boolean isInsideRadiusSquaredInclusive(int x, int z, int radiusSquared) {
+        return radiusSquared > 0 && ((double) x * (double) x + (double) z * (double) z) <= radiusSquared;
     }
 
     private static double smoothStep(double value) {
