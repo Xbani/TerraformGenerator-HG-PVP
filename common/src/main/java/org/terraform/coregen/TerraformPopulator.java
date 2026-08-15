@@ -283,14 +283,30 @@ public class TerraformPopulator extends BlockPopulator {
             for (int z = minZ; z < minZ + 16; z++) {
                 if (!HeightMap.isInsideSpawnCoreArea(x, z)) continue;
 
-                // Preserve the existing biome surface and only repair a missing
-                // block left by a lake, cave or another late population pass.
                 int surfaceY = HeightMap.getSpawnCoreSurfaceY(tw, x, z);
-                if (!data.getType(x, surfaceY, z).isSolid()) {
-                    BiomeBank biome = tw.getBiomeBank(x, surfaceY, z);
-                    Material[] crust = biome.getHandler().getSurfaceCrust(tw.getHashedRand(712271, x, z));
-                    Material surfaceMaterial = crust.length == 0 ? Material.STONE : safeSurfaceMaterial(crust[0]);
-                    data.setType(x, surfaceY, z, surfaceMaterial);
+                int requiredDepth = HeightMap.getSpawnCoreRequiredDepth(x, z);
+
+                BiomeBank biome = tw.getBiomeBank(x, surfaceY, z);
+                Material[] crust = biome.getHandler().getSurfaceCrust(tw.getHashedRand(712271, x, z));
+                Material topMaterial = crust.length == 0 ? Material.STONE : safeSurfaceMaterial(crust[0]);
+                Material subMaterial = crust.length > 1 ? safeSurfaceMaterial(crust[1]) : (topMaterial == Material.SAND ? Material.SANDSTONE : Material.DIRT);
+
+                // Fill from surfaceY down to surfaceY - requiredDepth + 1
+                for (int d = 0; d < requiredDepth; d++) {
+                    int targetY = surfaceY - d;
+                    if (!data.getType(x, targetY, z).isSolid()) {
+                        Material fillMat = (d == 0) ? topMaterial : (d <= 2 ? subMaterial : Material.STONE);
+                        data.setType(x, targetY, z, fillMat);
+                    }
+                }
+
+                // If the block right underneath the keel is open air, add natural rock bottom taper
+                int keelBaseY = surfaceY - requiredDepth;
+                if (!data.getType(x, keelBaseY, z).isSolid()) {
+                    data.setType(x, keelBaseY, z, Material.STONE);
+                    if (requiredDepth >= 5 && !data.getType(x, keelBaseY - 1, z).isSolid()) {
+                        data.setType(x, keelBaseY - 1, z, Material.COBBLESTONE);
+                    }
                 }
             }
         }

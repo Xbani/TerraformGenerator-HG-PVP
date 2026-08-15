@@ -157,6 +157,16 @@ public class TerraformGenerator extends ChunkGenerator {
                                dontCareRandom,CommonMat.DEEPSLATE, CommonMat.STONE));
                     }
 
+                    // Protect spawn island volume from cave carving
+                    if (HeightMap.isInsideSpawnCoreArea(rawX, rawZ)) {
+                        int spawnY = HeightMap.getSpawnCoreSurfaceY(tw, rawX, rawZ);
+                        int requiredDepth = HeightMap.getSpawnCoreRequiredDepth(rawX, rawZ);
+                        if (y > spawnY - requiredDepth && y <= spawnY) {
+                            cache.cacheSolid(x, y, z);
+                            continue;
+                        }
+                    }
+
                     // Set cave air if a cave CAN be carved here
                     if (tw.noiseCaveRegistry.canNoiseCarve(rawX, y, rawZ, height, cache)) {
                         chunkData.setBlock(x, y, z, CommonMat.CAVE_AIR);
@@ -180,6 +190,18 @@ public class TerraformGenerator extends ChunkGenerator {
                 // Carve caves HERE.
                 boolean mustUpdateHeight = true;
                 for (int y = (int) height; y > TerraformGeneratorPlugin.injector.getMinY(); y--) {
+                    if (HeightMap.isInsideSpawnCoreArea(rawX, rawZ)) {
+                        int spawnY = HeightMap.getSpawnCoreSurfaceY(tw, rawX, rawZ);
+                        int requiredDepth = HeightMap.getSpawnCoreRequiredDepth(rawX, rawZ);
+                        if (y > spawnY - requiredDepth && y <= spawnY) {
+                            if (!chunkData.getType(x, y, z).isSolid()) {
+                                chunkData.setBlock(x, y, z, CommonMat.STONE);
+                                cache.cacheSolid(x, y, z);
+                            }
+                            mustUpdateHeight = false;
+                            continue;
+                        }
+                    }
                     if (tw.noiseCaveRegistry.canGenerateCarve(rawX, y, rawZ, height, cache)
                         || !chunkData.getType(x, y, z).isSolid())
                     {

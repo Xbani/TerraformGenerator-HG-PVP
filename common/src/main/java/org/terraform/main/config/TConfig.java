@@ -37,7 +37,7 @@ public class TConfig extends YamlFileInterface {
     @YamlKey("heightmap.spawn-flat-radius")
     public int HEIGHT_MAP_SPAWN_FLAT_RADIUS = -1;
     @YamlKey("heightmap.spawn.advanced.radius")
-    public int HEIGHT_MAP_SPAWN_ADVANCED_RADIUS = 32;
+    public int HEIGHT_MAP_SPAWN_ADVANCED_RADIUS = 36;
     @YamlKey("heightmap.spawn.advanced.center-y")
     public int HEIGHT_MAP_SPAWN_ADVANCED_CENTER_Y = 68;
     @YamlKey("heightmap.spawn.advanced.edge-y")

@@ -110,13 +110,13 @@ public enum HeightMap {
     public static int spawnFlatRadiusSquared = -324534;
     private static SpawnMode spawnMode = SpawnMode.SIMPLE;
     private static int spawnSimpleRadiusSquared = -1;
-    private static int spawnAdvancedRadius = 32;
-    private static int spawnAdvancedRadiusSquared = 32 * 32;
+    private static int spawnAdvancedRadius = 36;
+    private static int spawnAdvancedRadiusSquared = 36 * 36;
     private static int spawnAdvancedCenterY = 68;
     private static int spawnAdvancedEdgeY = 72;
     private static int spawnAdvancedBlendDistance = 16;
-    private static int spawnAdvancedOuterRadius = 48;
-    private static int spawnAdvancedOuterRadiusSquared = 48 * 48;
+    private static int spawnAdvancedOuterRadius = 52;
+    private static int spawnAdvancedOuterRadiusSquared = 52 * 52;
     private static final ConcurrentLRUCache<BiomeSection, SectionBlurCache> BLUR_CACHE = new ConcurrentLRUCache<>(
         "BLUR_CACHE",64, (sect)->{
             SectionBlurCache newCache = new SectionBlurCache(
@@ -377,6 +377,20 @@ public enum HeightMap {
             return (int) lerp(spawnAdvancedCenterY, spawnAdvancedEdgeY, t);
         }
         return getBlockHeight(tw, x, z);
+    }
+
+    /**
+     * Calculates the minimum required depth for the spawn island at (x, z).
+     * Tapers from 6 blocks deep at center (dist=0) to 3 blocks deep at edge (dist=radius).
+     */
+    public static int getSpawnCoreRequiredDepth(int x, int z) {
+        if (spawnMode == SpawnMode.ADVANCED && spawnAdvancedRadius > 0) {
+            double distance = Math.sqrt((double) x * (double) x + (double) z * (double) z);
+            double rel = Math.min(1.0, distance / (double) spawnAdvancedRadius);
+            double depth = 3.0 + 3.0 * (1.0 - rel * rel);
+            return (int) Math.round(depth);
+        }
+        return 3;
     }
 
     private static int squareIfPositive(int radius) {
