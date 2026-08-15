@@ -68,7 +68,19 @@ public enum Version {
         try{
             return Version.valueOf("v" + version.replace(".","_"));
         }catch(IllegalArgumentException e){
-            TerraformGeneratorPlugin.logger.stdout("Unknown version " + version + ", trying failsafe.");
+            if (version.contains(".")) {
+                String[] parts = version.split("\\.");
+                if (parts.length >= 2) {
+                    try {
+                        return Version.valueOf("v" + parts[0] + "_" + parts[1]);
+                    } catch (IllegalArgumentException ignored) {}
+                }
+            }
+            if (TerraformGeneratorPlugin.logger != null) {
+                TerraformGeneratorPlugin.logger.stdout("Unknown version " + version + ", trying failsafe.");
+            } else {
+                Bukkit.getLogger().info("[TerraformGenerator] Unknown version " + version + ", trying failsafe.");
+            }
             Version highest = Version.v1_18_2;
             for(Version v:Version.values())
                 if(v.isAtLeast(highest)) highest = v;
