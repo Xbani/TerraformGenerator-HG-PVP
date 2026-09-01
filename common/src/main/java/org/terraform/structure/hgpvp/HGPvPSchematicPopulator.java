@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.terraform.biome.BiomeBank;
 import org.terraform.biome.BiomeClimate;
 import org.terraform.biome.BiomeType;
+import org.terraform.coregen.HeightMap;
+import org.terraform.coregen.TerraLootTable;
 import org.terraform.coregen.populatordata.PopulatorDataAbstract;
 import org.terraform.data.MegaChunk;
 import org.terraform.data.SimpleBlock;
@@ -100,6 +102,9 @@ public abstract class HGPvPSchematicPopulator extends MultiMegaChunkStructurePop
             }
 
             int y = GenUtils.getHighestGround(data, x, z) + getYOffset();
+            if (!isValidSpawnHeight(y)) {
+                continue;
+            }
             Random random = getHashedRandom(tw, data.getChunkX(), data.getChunkZ());
             BlockFace facing = BlockUtils.getDirectBlockFace(random);
             try {
@@ -214,6 +219,9 @@ public abstract class HGPvPSchematicPopulator extends MultiMegaChunkStructurePop
         if (!isValidBiome(tw.getBiomeBank(x, z))) {
             return false;
         }
+        if (!isValidPosition(tw, x, z)) {
+            return false;
+        }
         double ratio = Math.max(0.0d, Math.min(1.0d, getSpawnRatio()));
         return GenUtils.chance(
                 tw.getHashedRand(salt * 31 + 1, mc.getX(), mc.getZ()),
@@ -223,6 +231,14 @@ public abstract class HGPvPSchematicPopulator extends MultiMegaChunkStructurePop
     }
 
     protected abstract boolean isValidBiome(@NotNull BiomeBank biome);
+
+    protected boolean isValidPosition(@NotNull TerraformWorld tw, int x, int z) {
+        return true;
+    }
+
+    protected boolean isValidSpawnHeight(int y) {
+        return true;
+    }
 
     protected abstract double getSpawnRatio();
 
@@ -256,6 +272,14 @@ public abstract class HGPvPSchematicPopulator extends MultiMegaChunkStructurePop
         public void applyData(@NotNull SimpleBlock block, @NotNull BlockData data) {
             if (replaceLightWithCaveAir && data.getMaterial() == Material.LIGHT) {
                 block.setType(Material.CAVE_AIR);
+                return;
+            }
+            if (data.getMaterial() == Material.CHEST
+                || data.getMaterial() == Material.TRAPPED_CHEST
+                || data.getMaterial() == Material.BARREL)
+            {
+                super.applyData(block, data);
+                block.getPopData().lootTableChest(block.getX(), block.getY(), block.getZ(), TerraLootTable.DESERT_PYRAMID);
                 return;
             }
             super.applyData(block, data);
@@ -432,6 +456,16 @@ public abstract class HGPvPSchematicPopulator extends MultiMegaChunkStructurePop
                    || biome.getType() == BiomeType.HIGH_MOUNTAINOUS
                    || biome.getClimate() == BiomeClimate.COLD
                    || biome.getClimate() == BiomeClimate.SNOWY;
+        }
+
+        @Override
+        protected boolean isValidPosition(@NotNull TerraformWorld tw, int x, int z) {
+            return HeightMap.getBlockHeight(tw, x, z) > 80;
+        }
+
+        @Override
+        protected boolean isValidSpawnHeight(int y) {
+            return y > 80;
         }
 
         @Override
