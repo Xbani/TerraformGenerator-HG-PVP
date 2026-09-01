@@ -4,6 +4,8 @@ import org.avarion.yaml.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @YamlFile(lenient = Leniency.LENIENT)
@@ -491,6 +493,59 @@ public class TConfig extends YamlFileInterface {
     public int STRUCTURES_MEGACHUNK_NUMBIOMESECTIONS = 4;
     @YamlKey("structures.technical.megachunk.max-structures-per-megachunk")
     public int STRUCTURES_MEGACHUNK_MAXSTRUCTURES = 3;
+
+    // -=[HG-PVP SCHEMATICS]=-
+    @YamlComment("WorldEdit schematic filenames enabled for HG-PvP custom generation. Remove an entry to disable it.")
+    @YamlKey("structures.hgpvp-schematics.active")
+    public List<String> STRUCTURES_HGPVP_SCHEMATICS_ACTIVE = new ArrayList<>(List.of(
+            "AmongUs.schem",
+            "Bonfire.schem",
+            "IronEgg.schem",
+            "JungleTemple.schem",
+            "ReversedTree.schem",
+            "SculkTree.schem",
+            "Sovietbunker.schem",
+            "WormTower.schem"
+    ));
+    @YamlComment("Deterministic chance from 0.0 to 1.0. AmongUs is only tested once at its fixed coordinates.")
+    @YamlKey("structures.hgpvp-schematics.among-us.spawn-ratio")
+    public double STRUCTURES_HGPVP_AMONG_US_SPAWNRATIO = 0.001d;
+    @YamlKey("structures.hgpvp-schematics.among-us.x")
+    public int STRUCTURES_HGPVP_AMONG_US_X = 120;
+    @YamlKey("structures.hgpvp-schematics.among-us.z")
+    public int STRUCTURES_HGPVP_AMONG_US_Z = 120;
+    @YamlKey("structures.hgpvp-schematics.among-us.y-offset")
+    public int STRUCTURES_HGPVP_AMONG_US_Y_OFFSET = -2;
+    @YamlKey("structures.hgpvp-schematics.bonfire.spawn-ratio")
+    public double STRUCTURES_HGPVP_BONFIRE_SPAWNRATIO = 0.65d;
+    @YamlKey("structures.hgpvp-schematics.bonfire.y-offset")
+    public int STRUCTURES_HGPVP_BONFIRE_Y_OFFSET = 0;
+    @YamlKey("structures.hgpvp-schematics.iron-egg.spawn-ratio")
+    public double STRUCTURES_HGPVP_IRON_EGG_SPAWNRATIO = 0.08d;
+    @YamlKey("structures.hgpvp-schematics.iron-egg.y-offset")
+    public int STRUCTURES_HGPVP_IRON_EGG_Y_OFFSET = -2;
+    @YamlComment("Set to -1.0 to inherit structures.pyramid.spawn-ratio, or use a value from 0.0 to 1.0.")
+    @YamlKey("structures.hgpvp-schematics.jungle-temple.spawn-ratio")
+    public double STRUCTURES_HGPVP_JUNGLE_TEMPLE_SPAWNRATIO = -1.0d;
+    @YamlKey("structures.hgpvp-schematics.jungle-temple.y-offset")
+    public int STRUCTURES_HGPVP_JUNGLE_TEMPLE_Y_OFFSET = 0;
+    @YamlKey("structures.hgpvp-schematics.reversed-tree.spawn-ratio")
+    public double STRUCTURES_HGPVP_REVERSED_TREE_SPAWNRATIO = 0.10d;
+    @YamlKey("structures.hgpvp-schematics.reversed-tree.y-offset")
+    public int STRUCTURES_HGPVP_REVERSED_TREE_Y_OFFSET = 0;
+    @YamlKey("structures.hgpvp-schematics.sculk-tree.spawn-ratio")
+    public double STRUCTURES_HGPVP_SCULK_TREE_SPAWNRATIO = 0.20d;
+    @YamlKey("structures.hgpvp-schematics.sculk-tree.y-offset")
+    public int STRUCTURES_HGPVP_SCULK_TREE_Y_OFFSET = 0;
+    @YamlKey("structures.hgpvp-schematics.soviet-bunker.spawn-ratio")
+    public double STRUCTURES_HGPVP_SOVIET_BUNKER_SPAWNRATIO = 0.12d;
+    @YamlKey("structures.hgpvp-schematics.soviet-bunker.y-offset")
+    public int STRUCTURES_HGPVP_SOVIET_BUNKER_Y_OFFSET = 0;
+    @YamlKey("structures.hgpvp-schematics.worm-tower.spawn-ratio")
+    public double STRUCTURES_HGPVP_WORM_TOWER_SPAWNRATIO = 0.25d;
+    @YamlKey("structures.hgpvp-schematics.worm-tower.y-offset")
+    public int STRUCTURES_HGPVP_WORM_TOWER_Y_OFFSET = 0;
+
     @YamlKey("structures.mansion.enabled")
     public boolean STRUCTURES_MANSION_ENABLED = true;
     @YamlKey("structures.mansion.size")

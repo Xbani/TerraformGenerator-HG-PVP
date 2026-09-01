@@ -18,6 +18,7 @@ import org.terraform.data.TerraformWorld;
 import org.terraform.main.LangOpt;
 import org.terraform.main.TerraformGeneratorPlugin;
 import org.terraform.structure.*;
+import org.terraform.structure.hgpvp.HGPvPSchematicPopulator;
 import org.terraform.structure.stronghold.StrongholdPopulator;
 
 import java.util.ArrayList;
@@ -116,7 +117,11 @@ public class LocateCommand extends TerraCommand implements Listener {
 
         Runnable runnable = new Runnable() {
             public void run() {
-                int[] loc = StructureLocator.locateMultiMegaChunkStructure(tw, center, populator, -1);
+                int[] loc = populator instanceof HGPvPSchematicPopulator hgpvpPopulator
+                            ? hgpvpPopulator.getNearestFeature(tw,
+                                center.getCenterBlockCoords()[0],
+                                center.getCenterBlockCoords()[1])
+                            : StructureLocator.locateMultiMegaChunkStructure(tw, center, populator, -1);
                 long timeTaken = System.currentTimeMillis() - startTime;
 
                 syncSendMessage(uuid, LangOpt.COMMAND_LOCATE_COMPLETED_TASK.parse("%time%", timeTaken + ""));

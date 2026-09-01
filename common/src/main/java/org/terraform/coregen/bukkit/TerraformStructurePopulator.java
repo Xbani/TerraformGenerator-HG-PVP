@@ -20,6 +20,7 @@ import org.terraform.structure.JigsawState;
 import org.terraform.structure.JigsawStructurePopulator;
 import org.terraform.structure.SingleMegaChunkStructurePopulator;
 import org.terraform.structure.StructureRegistry;
+import org.terraform.structure.hgpvp.HGPvPSchematicPopulator;
 import org.terraform.structure.room.CubeRoom;
 import org.terraform.structure.room.PathPopulatorData;
 import org.terraform.structure.room.RoomLayoutGenerator;
@@ -197,6 +198,27 @@ public class TerraformStructurePopulator extends BlockPopulator {
                     spop.populate(tw, data);
                     break;
                 }
+            }
+        }
+
+        // HG-PvP schematics use this guaranteed-write path even when they are
+        // logically small structures. Some assets span well beyond a LimitedRegion.
+        for (HGPvPSchematicPopulator populator : StructureRegistry.hgpvpSchematicRegistry) {
+            if (!populator.canSpawn(tw, data.getChunkX(), data.getChunkZ())) {
+                continue;
+            }
+            int[][] candidates = populator.getCoordsFromMegaChunk(tw, mc);
+            for (int[] coords : candidates) {
+                if (coords[0] >> 4 != data.getChunkX() || coords[1] >> 4 != data.getChunkZ()) {
+                    continue;
+                }
+                Bukkit.getPluginManager()
+                      .callEvent(new TerraformStructureSpawnEvent(coords[0],
+                              coords[1],
+                              populator.getClass().getName()
+                      ));
+                populator.populate(tw, data);
+                break;
             }
         }
     }

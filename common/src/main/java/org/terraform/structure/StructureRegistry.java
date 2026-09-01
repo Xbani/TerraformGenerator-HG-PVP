@@ -10,6 +10,7 @@ import org.terraform.main.config.TConfig;
 import org.terraform.structure.ancientcity.AncientCityPopulator;
 import org.terraform.structure.catacombs.CatacombsPopulator;
 import org.terraform.structure.caves.LargeCavePopulator;
+import org.terraform.structure.hgpvp.HGPvPSchematicPopulator;
 import org.terraform.structure.mineshaft.BadlandsMinePopulator;
 import org.terraform.structure.mineshaft.MineshaftPopulator;
 import org.terraform.structure.monument.MonumentPopulator;
@@ -48,6 +49,7 @@ public class StructureRegistry {
     public static final Map<StructureType, SingleMegaChunkStructurePopulator[]> largeStructureRegistry = new EnumMap<>(
             StructureType.class);
     public static final Collection<MultiMegaChunkStructurePopulator> smallStructureRegistry = new ArrayList<>();
+    public static final Collection<HGPvPSchematicPopulator> hgpvpSchematicRegistry = new ArrayList<>();
     private static final ConcurrentLRUCache<MegaChunkKey, SingleMegaChunkStructurePopulator[]> queryCache
             = new ConcurrentLRUCache<>("structureQueryCache",50, (MegaChunkKey key)->{
         TerraformWorld tw = key.tw;
@@ -153,6 +155,15 @@ public class StructureRegistry {
         registerStructure(StructureType.SMALL, new IglooPopulator());
         registerStructure(StructureType.SMALL, new DesertWellPopulator());
         registerStructure(StructureType.SMALL, new WitchHutPopulator());
+
+        registerHGPvPSchematic(new HGPvPSchematicPopulator.AmongUsPopulator());
+        registerHGPvPSchematic(new HGPvPSchematicPopulator.BonfirePopulator());
+        registerHGPvPSchematic(new HGPvPSchematicPopulator.IronEggPopulator());
+        registerHGPvPSchematic(new HGPvPSchematicPopulator.JungleTemplePopulator());
+        registerHGPvPSchematic(new HGPvPSchematicPopulator.ReversedTreePopulator());
+        registerHGPvPSchematic(new HGPvPSchematicPopulator.SculkTreePopulator());
+        registerHGPvPSchematic(new HGPvPSchematicPopulator.SovietBunkerPopulator());
+        registerHGPvPSchematic(new HGPvPSchematicPopulator.WormTowerPopulator());
     }
 
     /**
@@ -225,8 +236,29 @@ public class StructureRegistry {
 
     }
 
+    public static void registerHGPvPSchematic(@NotNull HGPvPSchematicPopulator populator) {
+        if (!populator.isEnabled()) {
+            return;
+        }
+        TerraformGeneratorPlugin.logger.info("[Structure Registry] Registered HG-PvP schematic: "
+                                             + populator.getSchematicFile());
+        hgpvpSchematicRegistry.add(populator);
+    }
+
+    public static boolean suppressesVegetationForHGPvPSchematic(@NotNull TerraformWorld tw,
+                                                                 int chunkX,
+                                                                 int chunkZ)
+    {
+        for (HGPvPSchematicPopulator populator : hgpvpSchematicRegistry) {
+            if (populator.suppressesVegetationInChunk(tw, chunkX, chunkZ)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static StructurePopulator @NotNull [] getAllPopulators() {
-        int size = smallStructureRegistry.size();
+        int size = smallStructureRegistry.size() + hgpvpSchematicRegistry.size();
         for (StructurePopulator[] types : largeStructureRegistry.values()) {
             size += types.length;
         }
@@ -235,6 +267,11 @@ public class StructureRegistry {
 
         // Account for all small structures
         for (StructurePopulator pop : smallStructureRegistry) {
+            pops[index] = pop;
+            index++;
+        }
+
+        for (StructurePopulator pop : hgpvpSchematicRegistry) {
             pops[index] = pop;
             index++;
         }

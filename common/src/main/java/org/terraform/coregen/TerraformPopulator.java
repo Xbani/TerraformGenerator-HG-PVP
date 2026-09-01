@@ -222,6 +222,11 @@ public class TerraformPopulator extends BlockPopulator {
         EnumSet<BiomeBank> banks = EnumSet.noneOf(BiomeBank.class);
 
         boolean[] canDecorate = StructureBufferDistanceHandler.canDecorateChunk(tw, data.getChunkX(), data.getChunkZ());
+        boolean schematicVegetationExclusion = StructureRegistry.suppressesVegetationForHGPvPSchematic(
+                tw,
+                data.getChunkX(),
+                data.getChunkZ()
+        );
 
         // Amethysts
         if(canDecorate[1])
@@ -243,7 +248,7 @@ public class TerraformPopulator extends BlockPopulator {
         }
 
         // Only decorate disruptive features if the structures allow for them
-        if (canDecorate[0]) {
+        if (canDecorate[0] && !schematicVegetationExclusion) {
             for (BiomeBank bank : banks) {
                 bank.getHandler().populateLargeItems(tw, random, data);
             }
