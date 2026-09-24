@@ -36,6 +36,10 @@ public class TConfig extends YamlFileInterface {
     public int HEIGHT_MAP_BEDROCK_DENSITY = 70;
     @YamlKey("heightmap.spawn.mode")
     public String HEIGHT_MAP_SPAWN_MODE = "simple";
+    @YamlKey("heightmap.spawn.center-x")
+    public int HEIGHT_MAP_SPAWN_CENTER_X = 0;
+    @YamlKey("heightmap.spawn.center-z")
+    public int HEIGHT_MAP_SPAWN_CENTER_Z = 0;
     @YamlKey("heightmap.spawn-flat-radius")
     public int HEIGHT_MAP_SPAWN_FLAT_RADIUS = -1;
     @YamlKey("heightmap.spawn.advanced.radius")
