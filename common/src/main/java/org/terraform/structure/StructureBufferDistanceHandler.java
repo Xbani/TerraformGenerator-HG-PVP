@@ -20,7 +20,9 @@ public class StructureBufferDistanceHandler {
     public static boolean[] canDecorateChunk(@NotNull TerraformWorld tw, int chunkX, int chunkZ) {
 
         // Within radius, no surface decorations, but there can be cave decorations
-        if (Math.pow(chunkX * 16, 2) + Math.pow(chunkZ * 16, 2) < HeightMap.spawnFlatRadiusSquared) {
+        double dx = (double) (chunkX * 16) - HeightMap.spawnCenterX;
+        double dz = (double) (chunkZ * 16) - HeightMap.spawnCenterZ;
+        if (dx * dx + dz * dz < HeightMap.spawnFlatRadiusSquared) {
             return new boolean[]{false,true};
         }
 

@@ -108,6 +108,8 @@ public enum HeightMap {
     public static final int MASK_VOLUME = MASK_DIAMETER*MASK_DIAMETER;
     private static final int upscaleSize = 3;
     public static int spawnFlatRadiusSquared = -324534;
+    public static int spawnCenterX = 0;
+    public static int spawnCenterZ = 0;
     private static SpawnMode spawnMode = SpawnMode.SIMPLE;
     private static int spawnSimpleRadiusSquared = -1;
     private static int spawnAdvancedRadius = 36;
@@ -283,6 +285,9 @@ public enum HeightMap {
     public static void initSpawnArea() {
         spawnMode = SpawnMode.fromConfig(TConfig.c.HEIGHT_MAP_SPAWN_MODE);
 
+        spawnCenterX = TConfig.c.HEIGHT_MAP_SPAWN_CENTER_X;
+        spawnCenterZ = TConfig.c.HEIGHT_MAP_SPAWN_CENTER_Z;
+
         int simpleRadius = Math.max(-1, TConfig.c.HEIGHT_MAP_SPAWN_FLAT_RADIUS);
         spawnSimpleRadiusSquared = squareIfPositive(simpleRadius);
 
@@ -331,7 +336,9 @@ public enum HeightMap {
             return baseHeight;
         }
 
-        double distance = Math.sqrt((double) x * (double) x + (double) z * (double) z);
+        double dx = (double) x - spawnCenterX;
+        double dz = (double) z - spawnCenterZ;
+        double distance = Math.sqrt(dx * dx + dz * dz);
         if (distance <= spawnAdvancedRadius) {
             double t = smoothStep(distance / (double) spawnAdvancedRadius);
             return lerp(spawnAdvancedCenterY, spawnAdvancedEdgeY, t);
@@ -372,7 +379,9 @@ public enum HeightMap {
      */
     public static int getSpawnCoreSurfaceY(TerraformWorld tw, int x, int z) {
         if (spawnMode == SpawnMode.ADVANCED && spawnAdvancedRadius > 0) {
-            double distance = Math.sqrt((double) x * (double) x + (double) z * (double) z);
+            double dx = (double) x - spawnCenterX;
+            double dz = (double) z - spawnCenterZ;
+            double distance = Math.sqrt(dx * dx + dz * dz);
             double t = smoothStep(distance / (double) spawnAdvancedRadius);
             return (int) lerp(spawnAdvancedCenterY, spawnAdvancedEdgeY, t);
         }
@@ -385,7 +394,9 @@ public enum HeightMap {
      */
     public static int getSpawnCoreRequiredDepth(int x, int z) {
         if (spawnMode == SpawnMode.ADVANCED && spawnAdvancedRadius > 0) {
-            double distance = Math.sqrt((double) x * (double) x + (double) z * (double) z);
+            double dx = (double) x - spawnCenterX;
+            double dz = (double) z - spawnCenterZ;
+            double distance = Math.sqrt(dx * dx + dz * dz);
             double rel = Math.min(1.0, distance / (double) spawnAdvancedRadius);
             double depth = 3.0 + 3.0 * (1.0 - rel * rel);
             return (int) Math.round(depth);
@@ -398,11 +409,15 @@ public enum HeightMap {
     }
 
     private static boolean isInsideRadiusSquared(int x, int z, int radiusSquared) {
-        return radiusSquared > 0 && ((double) x * (double) x + (double) z * (double) z) < radiusSquared;
+        double dx = (double) x - spawnCenterX;
+        double dz = (double) z - spawnCenterZ;
+        return radiusSquared > 0 && (dx * dx + dz * dz) < radiusSquared;
     }
 
     private static boolean isInsideRadiusSquaredInclusive(int x, int z, int radiusSquared) {
-        return radiusSquared > 0 && ((double) x * (double) x + (double) z * (double) z) <= radiusSquared;
+        double dx = (double) x - spawnCenterX;
+        double dz = (double) z - spawnCenterZ;
+        return radiusSquared > 0 && (dx * dx + dz * dz) <= radiusSquared;
     }
 
     private static double smoothStep(double value) {
