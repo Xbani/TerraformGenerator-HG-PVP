@@ -1,6 +1,7 @@
 package org.terraform.coregen;
 
 import org.terraform.biome.BiomeBank;
+import org.terraform.coregen.floating.FloatingIslandGenerator;
 import org.terraform.biome.BiomeSection;
 import org.terraform.coregen.bukkit.TerraformGenerator;
 import org.terraform.coregen.populatordata.PopulatorDataAbstract;
@@ -192,6 +193,8 @@ public enum HeightMap {
     }
 
     public static double getPreciseHeight(TerraformWorld tw, int x, int z) {
+        FloatingIslandGenerator floating = FloatingIslandGenerator.forWorld(tw.getName());
+        if (floating != null) return floating.surface(tw.getSeed(), x, z, tw.minY);
         ChunkCache cache = TerraformGenerator.getCache(tw, x>>4, z>>4);
 
         double cachedValue = cache.getHeightMapHeight(x, z);
@@ -332,6 +335,11 @@ public enum HeightMap {
         }
 
         return Math.min(height, TerraformGenerator.seaLevel - Math.max(0, TConfig.c.HEIGHT_MAP_FLAT_SWAMP_MIN_WATER_DEPTH));
+    }
+
+    public static double applyFloatingSpawnHeight(int x, int z, double baseHeight, double flatHeight) {
+        if (spawnMode == SpawnMode.SIMPLE && isInsideSpawnCoreArea(x, z)) return flatHeight;
+        return applySpawnAreaHeight(x, z, baseHeight);
     }
 
     private static double applySpawnAreaHeight(int x, int z, double baseHeight) {

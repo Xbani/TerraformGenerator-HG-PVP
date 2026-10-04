@@ -1,0 +1,47 @@
+name: Floating island checks
+
+on:
+  pull_request:
+    paths:
+      - 'common/src/main/java/org/terraform/coregen/floating/**'
+      - 'common/src/main/java/org/terraform/coregen/HeightMap.java'
+      - 'common/src/main/java/org/terraform/main/**'
+      - 'tools/biome-map-editor/**'
+      - 'tests/**'
+      - '.github/workflows/floating-islands.yml'
+  workflow_dispatch:
+
+jobs:
+  geometry-and-editor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r tools/biome-map-editor/requirements.txt
+      - name: Geometry and dispatch checks
+        run: |
+          mkdir -p /tmp/floating-island-tests
+          javac -d /tmp/floating-island-tests common/src/main/java/org/terraform/coregen/floating/BiomeTexture.java tests/java/BiomeTextureTest.java
+          java -cp /tmp/floating-island-tests BiomeTextureTest
+      - run: python -m unittest discover -s tests/python -v
+      - name: Editor GUI smoke test
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-tk xvfb
+          xvfb-run -a python tests/python/gui_smoke_test.py
+  common-compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew :common:compileJava --console=plain

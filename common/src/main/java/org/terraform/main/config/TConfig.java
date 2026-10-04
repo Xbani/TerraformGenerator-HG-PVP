@@ -18,6 +18,10 @@ public class TConfig extends YamlFileInterface {
         }
     }
 
+    @YamlKey("generation.mode")
+    @YamlComment("normal or floating-islands; generator id floating-islands also selects the texture mode per world")
+    public String GENERATION_MODE = "normal";
+
     // -=[HEIGHTMAP]=-
     @YamlKey("heightmap.core-frequency")
     @YamlComment("A higher core frequency causes land height to vary in shorter distance.")
