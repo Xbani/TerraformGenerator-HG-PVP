@@ -1,0 +1,21 @@
+# A starter texture is installed automatically. Replace it using tools/biome-map-editor.
+# World-specific overrides: floating-islands/<world-name>.yml (image paths relative to that file).
+texture: floating-islands-biomes.png
+# Omit center-x / center-z to use heightmap.spawn.center-x / center-z.
+altitude: 100
+relief: 2.0
+min-thickness: 4
+max-thickness: 18
+bevel-width: 8
+bevel-depth: 3
+# Chance per tree site, four sites per chunk; zero disables all trees.
+tree-chance: 0.08
+# fixed: exact palette; seeded: shuffle allowed-biomes using world seed XOR dispatch-seed.
+dispatch: fixed
+dispatch-seed: 0
+allowed-biomes: [PLAINS, FOREST, DESERT, TAIGA]
+palette:
+  '#78B84A': PLAINS
+  '#287A38': FOREST
+  '#E6CB73': DESERT
+  '#6BA5A0': TAIGA

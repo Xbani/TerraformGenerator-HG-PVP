@@ -11,6 +11,8 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.terraform.biome.BiomeBank;
+import org.terraform.coregen.floating.FloatingIslandGenerator;
+import org.terraform.coregen.floating.FloatingIslandSettings;
 import org.terraform.coregen.ChunkCache;
 import org.terraform.coregen.HeightMap;
 import org.terraform.coregen.NMSInjectorAbstract;
@@ -82,6 +84,7 @@ public class TerraformGeneratorPlugin extends JavaPlugin implements Listener {
     public void onEnable() {
         super.onEnable();
         instance = this;
+        FloatingIslandGenerator.clearWorlds();
         taskScheduler = isPaperOrFolia() ? new FoliaScheduler() : new SpigotScheduler();
 
         try {
@@ -181,6 +184,7 @@ public class TerraformGeneratorPlugin extends JavaPlugin implements Listener {
     @Deprecated
     @EventHandler
     public void onWorldLoad(@NotNull WorldLoadEvent event) {
+        if (event.getWorld().getGenerator() instanceof FloatingIslandGenerator) return;
         if (event.getWorld().getGenerator() instanceof TerraformGenerator) {
             logger.stdout(event.getWorld().getName() + " loaded.");
             if (!TerraformGenerator.preWorldInitGen.isEmpty()) {
@@ -214,6 +218,12 @@ public class TerraformGeneratorPlugin extends JavaPlugin implements Listener {
     @SuppressWarnings("unused")
     @EventHandler
     public void onWorldInit(@NotNull WorldInitEvent event) {
+        if (event.getWorld().getGenerator() instanceof FloatingIslandGenerator) {
+            TerraformWorld tw = TerraformWorld.forceOverrideSeed(event.getWorld());
+            tw.minY = event.getWorld().getMinHeight();
+            tw.maxY = event.getWorld().getMaxHeight();
+            return;
+        }
         if (event.getWorld().getGenerator() instanceof TerraformGenerator) {
             logger.stdout("Detected world: " + event.getWorld().getName() + ", commencing injection... ");
             TerraformWorld tw = TerraformWorld.forceOverrideSeed(event.getWorld());
@@ -242,6 +252,22 @@ public class TerraformGeneratorPlugin extends JavaPlugin implements Listener {
 
     @Override
     public ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, String id) {
+        if ("floating-islands".equalsIgnoreCase(id)
+                || "floating-islands".equalsIgnoreCase(TConfig.c.GENERATION_MODE)) {
+            File profile = new File(getDataFolder(), "floating-islands.yml");
+            if (!profile.exists()) {
+                saveResource("floating-islands.yml", false);
+                File defaultTexture = new File(getDataFolder(), "floating-islands-biomes.png");
+                if (!defaultTexture.exists()) saveResource("floating-islands-biomes.png", false);
+            }
+            File worldProfile = new File(getDataFolder(), "floating-islands/" + worldName + ".yml");
+            try {
+                return new FloatingIslandGenerator(worldName,
+                        new FloatingIslandSettings(worldProfile.exists() ? worldProfile : profile));
+            } catch (Exception ex) {
+                throw new IllegalArgumentException("Cannot load floating islands for " + worldName + ": " + ex.getMessage(), ex);
+            }
+        }
         return new TerraformGenerator();
     }
 
