@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 import org.terraform.biome.BiomeBank;
+import org.terraform.coregen.floating.FloatingIslandGenerator;
 import org.terraform.cave.NoiseCaveRegistry;
 import org.terraform.coregen.ChunkCache;
 import org.terraform.coregen.HeightMap;
@@ -123,6 +124,11 @@ public class TerraformWorld {
      * @param z blockZ
      */
     public BiomeBank getBiomeBank(int x, int z) {
+        FloatingIslandGenerator floating = FloatingIslandGenerator.forWorld(worldName);
+        if (floating != null) {
+            BiomeBank bank = floating.biome(seed, x, z);
+            return bank == null ? BiomeBank.PLAINS : bank;
+        }
         ChunkCache cache = TerraformGenerator.getCache(this, x>>4, z>>4);
         BiomeBank cachedValue = cache.getBiome(x, z);
         if (!BiomeBank.debugPrint && cachedValue != null) {
@@ -135,6 +141,11 @@ public class TerraformWorld {
     }
 
     public BiomeBank getBiomeBank(int x, int y, int z) {
+        FloatingIslandGenerator floating = FloatingIslandGenerator.forWorld(worldName);
+        if (floating != null) {
+            BiomeBank bank = floating.biome(seed, x, z);
+            return bank == null ? BiomeBank.PLAINS : bank;
+        }
         ChunkCache cache = TerraformGenerator.getCache(this, x>>4, z>>4);
         BiomeBank cachedValue = cache.getBiome(x, z);
         if (cachedValue != null) {

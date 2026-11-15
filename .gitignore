@@ -47,3 +47,7 @@ WorldGenTestServer/
 
 # No spigot 1.17 jar
 spigot-1.17.jar
+# Python editor and regression tests
+__pycache__/
+*.pyc
+.venv/

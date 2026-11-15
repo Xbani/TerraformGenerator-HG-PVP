@@ -137,3 +137,7 @@ discord
 [issues-url]: https://github.com/Hex27/terraformgenerator/issues
 
 [spigot-tfg]: https://www.spigotmc.org/resources/75132/
+
+## Texture-driven floating islands
+
+See [setup and configuration](docs/floating-islands.md) and the [Python texture editor](tools/biome-map-editor/README.md). Select generator ID `floating-islands` or set `generation.mode: floating-islands`.
